@@ -1,21 +1,19 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { BookOpen, FileText, ClipboardCheck, ArrowRight, PlayCircle, FileDown, CheckCircle2 } from "lucide-react";
+import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, FileText } from "lucide-react";
+import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 
 export default function SubjectPage() {
-  const { id } = useParams<{ id: string }>();
-  const subjectId = parseInt(id || "0");
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  const params = useParams();
+  const subjectId = parseInt(params.id || "0");
 
   const { data: subject } = trpc.subjects.getById.useQuery({ id: subjectId });
-  const { data: lessons } = trpc.lessons.listBySubject.useQuery({ subjectId });
-  const { data: quizzes } = trpc.quizzes.listBySubject.useQuery({ subjectId });
-  const { data: assignments } = trpc.assignments.listBySubject.useQuery({ subjectId });
+  const { data: notebooks } = trpc.notebooks.listBySubject.useQuery({ subjectId });
 
   if (!subject) {
     return (
@@ -23,7 +21,10 @@ export default function SubjectPage() {
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">المادة غير موجودة</h2>
           <Link href="/">
-            <Button variant="link">العودة للرئيسية</Button>
+            <Button>
+              <ArrowRight className="ml-2 w-5 h-5" />
+              العودة للرئيسية
+            </Button>
           </Link>
         </div>
       </div>
@@ -32,186 +33,136 @@ export default function SubjectPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10">
-      <div className="container py-12">
-        {/* Header */}
-        <div className="mb-8">
+      {/* Header */}
+      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+        <div className="container flex h-16 items-center justify-between">
           <Link href="/">
-            <Button variant="ghost" className="mb-4">
-              <ArrowRight className="ml-2 w-5 h-5" />
-              العودة للمواد
-            </Button>
+            <div className="flex items-center gap-3 cursor-pointer">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                <GraduationCap className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold">علوم ثانوي</h1>
+                <p className="text-xs text-muted-foreground">مذكرات علمية للمرحلة الثانوية</p>
+              </div>
+            </div>
           </Link>
-          
-          <div className="flex items-start gap-6">
-            <div 
-              className="w-20 h-20 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: subject.color || 'oklch(0.48 0.18 250 / 0.1)' }}
-            >
-              <BookOpen className="w-10 h-10" style={{ color: subject.color || 'oklch(0.48 0.18 250)' }} />
-            </div>
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold mb-2">{subject.name}</h1>
-              {subject.description && (
-                <p className="text-xl text-muted-foreground">{subject.description}</p>
-              )}
-            </div>
+
+          <div className="flex items-center gap-3">
+            {loading ? (
+              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            ) : user ? (
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <User className="w-5 h-5 text-muted-foreground" />
+                  <span className="text-sm font-medium">{user.name}</span>
+                </div>
+              </div>
+            ) : (
+              <a href={getLoginUrl()}>
+                <Button>
+                  <LogIn className="ml-2 w-5 h-5" />
+                  تسجيل الدخول
+                </Button>
+              </a>
+            )}
           </div>
         </div>
+      </header>
 
-        {/* Tabs */}
-        <Tabs defaultValue="lessons" dir="rtl">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="lessons" className="text-lg">
-              <BookOpen className="ml-2 w-5 h-5" />
-              الدروس
-            </TabsTrigger>
-            <TabsTrigger value="quizzes" className="text-lg">
-              <ClipboardCheck className="ml-2 w-5 h-5" />
-              الاختبارات
-            </TabsTrigger>
-            <TabsTrigger value="assignments" className="text-lg">
-              <FileText className="ml-2 w-5 h-5" />
-              الواجبات
-            </TabsTrigger>
-          </TabsList>
+      {/* Content */}
+      <section className="container py-16">
+        {/* Subject Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div
+            className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6"
+            style={{
+              backgroundColor: subject.color
+                ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
+                : "oklch(0.48 0.18 250 / 0.15)",
+            }}
+          >
+            <BookOpen
+              className="w-12 h-12"
+              style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
+            />
+          </div>
+          <h2 className="text-5xl font-bold mb-4">{subject.name}</h2>
+          {subject.description && (
+            <p className="text-xl text-muted-foreground">{subject.description}</p>
+          )}
+        </div>
 
-          {/* Lessons Tab */}
-          <TabsContent value="lessons" className="space-y-4">
-            {!lessons || lessons.length === 0 ? (
-              <Card className="p-12 text-center">
-                <BookOpen className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold mb-2">لا توجد دروس متاحة</h3>
-                <p className="text-muted-foreground">سيتم إضافة الدروس قريباً</p>
-              </Card>
-            ) : (
-              <div className="grid gap-4">
-                {lessons.map((lesson, index) => (
-                  <Link key={lesson.id} href={`/lesson/${lesson.id}`}>
-                    <Card className="hover:shadow-lg transition-all cursor-pointer border-2 hover:border-primary/50">
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <Badge variant="secondary" className="text-base px-3 py-1">
-                                الدرس {index + 1}
-                              </Badge>
-                              {lesson.videoUrl && (
-                                <Badge variant="outline" className="gap-1">
-                                  <PlayCircle className="w-4 h-4" />
-                                  فيديو
-                                </Badge>
-                              )}
-                              {lesson.pdfUrl && (
-                                <Badge variant="outline" className="gap-1">
-                                  <FileDown className="w-4 h-4" />
-                                  PDF
-                                </Badge>
-                              )}
-                            </div>
-                            <CardTitle className="text-2xl mb-2">{lesson.title}</CardTitle>
-                            {lesson.description && (
-                              <CardDescription className="text-base">
-                                {lesson.description}
-                              </CardDescription>
-                            )}
-                          </div>
-                          <CheckCircle2 className="w-6 h-6 text-muted-foreground" />
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          {/* Quizzes Tab */}
-          <TabsContent value="quizzes" className="space-y-4">
-            {!quizzes || quizzes.length === 0 ? (
-              <Card className="p-12 text-center">
-                <ClipboardCheck className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold mb-2">لا توجد اختبارات متاحة</h3>
-                <p className="text-muted-foreground">سيتم إضافة الاختبارات قريباً</p>
-              </Card>
-            ) : (
-              <div className="grid md:grid-cols-2 gap-4">
-                {quizzes.map((quiz) => (
-                  <Link key={quiz.id} href={`/quiz/${quiz.id}`}>
-                    <Card className="h-full hover:shadow-lg transition-all cursor-pointer border-2 hover:border-primary/50">
-                      <CardHeader>
-                        <CardTitle className="text-xl mb-2">{quiz.title}</CardTitle>
-                        {quiz.description && (
-                          <CardDescription className="text-base mb-4">
-                            {quiz.description}
-                          </CardDescription>
+        {/* Notebooks Grid */}
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-3xl font-bold mb-8">المذكرات المتاحة</h3>
+          
+          {!notebooks || notebooks.length === 0 ? (
+            <div className="text-center py-12">
+              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-2xl font-semibold mb-2">لا توجد مذكرات متاحة حالياً</h3>
+              <p className="text-muted-foreground">سيتم إضافة المذكرات قريباً</p>
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {notebooks.map((notebook) => (
+                <Link key={notebook.id} href={`/notebook/${notebook.id}`}>
+                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full flex flex-col">
+                    {notebook.coverImageUrl && (
+                      <div className="w-full h-48 overflow-hidden rounded-t-lg">
+                        <img
+                          src={notebook.coverImageUrl}
+                          alt={notebook.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      </div>
+                    )}
+                    <CardHeader className="flex-grow">
+                      <div className="flex items-start justify-between gap-2 mb-2">
+                        <CardTitle className="text-xl line-clamp-2">{notebook.title}</CardTitle>
+                        {notebook.isFeatured && (
+                          <Badge variant="default" className="shrink-0">مميزة</Badge>
                         )}
-                        <div className="flex gap-2 flex-wrap">
-                          {quiz.duration && (
-                            <Badge variant="secondary">
-                              المدة: {quiz.duration} دقيقة
-                            </Badge>
-                          )}
-                          {quiz.passingScore && (
-                            <Badge variant="secondary">
-                              درجة النجاح: {quiz.passingScore}
-                            </Badge>
-                          )}
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <Button className="w-full">
-                          <ClipboardCheck className="ml-2 w-5 h-5" />
-                          ابدأ الاختبار
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-
-          {/* Assignments Tab */}
-          <TabsContent value="assignments" className="space-y-4">
-            {!assignments || assignments.length === 0 ? (
-              <Card className="p-12 text-center">
-                <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-2xl font-semibold mb-2">لا توجد واجبات متاحة</h3>
-                <p className="text-muted-foreground">سيتم إضافة الواجبات قريباً</p>
-              </Card>
-            ) : (
-              <div className="grid gap-4">
-                {assignments.map((assignment) => (
-                  <Link key={assignment.id} href={`/assignment/${assignment.id}`}>
-                    <Card className="hover:shadow-lg transition-all cursor-pointer border-2 hover:border-primary/50">
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <CardTitle className="text-xl mb-2">{assignment.title}</CardTitle>
-                            {assignment.description && (
-                              <CardDescription className="text-base mb-4">
-                                {assignment.description}
-                              </CardDescription>
-                            )}
-                            <div className="flex gap-2 flex-wrap">
-                              <Badge variant="secondary">
-                                الموعد النهائي: {new Date(assignment.dueDate).toLocaleDateString('ar-SA')}
-                              </Badge>
-                              <Badge variant="secondary">
-                                الدرجة الكاملة: {assignment.maxScore}
-                              </Badge>
-                            </div>
+                      </div>
+                      {notebook.description && (
+                        <CardDescription className="line-clamp-3">{notebook.description}</CardDescription>
+                      )}
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex items-center justify-between text-sm">
+                        {notebook.pages && (
+                          <span className="text-muted-foreground">{notebook.pages} صفحة</span>
+                        )}
+                        {notebook.rating && (
+                          <div className="flex items-center gap-1">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <span className="font-medium">{notebook.rating}</span>
                           </div>
-                        </div>
-                      </CardHeader>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </div>
+                        )}
+                      </div>
+                      <div className="text-2xl font-bold text-primary">
+                        {parseFloat(notebook.price).toFixed(3)} د.ك
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button className="w-full">
+                        عرض التفاصيل
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t py-8 mt-16">
+        <div className="container text-center text-muted-foreground">
+          <p>© 2024 علوم ثانوي - جميع الحقوق محفوظة</p>
+        </div>
+      </footer>
     </div>
   );
 }
