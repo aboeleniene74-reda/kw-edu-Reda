@@ -30,6 +30,13 @@ export default function Home() {
               <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
             ) : user ? (
               <div className="flex items-center gap-3">
+                {user.role === 'admin' && (
+                  <Link href="/admin">
+                    <Button variant="outline" size="sm">
+                      لوحة التحكم
+                    </Button>
+                  </Link>
+                )}
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5 text-muted-foreground" />
                   <span className="text-sm font-medium">{user.name}</span>

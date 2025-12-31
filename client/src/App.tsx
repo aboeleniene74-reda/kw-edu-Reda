@@ -7,6 +7,9 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import GradePage from "./pages/GradePage";
 import SubjectPage from "./pages/SubjectPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminNotebooks from "./pages/AdminNotebooks";
+import AdminNotebookNew from "./pages/AdminNotebookNew";
 
 function Router() {
   return (
@@ -14,6 +17,9 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/grade/:id"} component={GradePage} />
       <Route path={"/subject/:id"} component={SubjectPage} />
+      <Route path={"/admin"} component={AdminDashboard} />
+      <Route path={"/admin/notebooks"} component={AdminNotebooks} />
+      <Route path={"/admin/notebooks/new"} component={AdminNotebookNew} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

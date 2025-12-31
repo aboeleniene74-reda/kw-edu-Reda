@@ -1,12 +1,13 @@
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { sql } from "drizzle-orm";
+import { notebooks as notebooksTable, subjects as subjectsTable, purchases as purchasesTable } from "../drizzle/schema";
 import * as db from "./db";
 
-// Middleware للتحقق من صلاحيات المعلم أو المدير
 const teacherProcedure = publicProcedure.use(({ ctx, next }) => {
   if (!ctx.user) {
     throw new TRPCError({
@@ -23,18 +24,30 @@ const teacherProcedure = publicProcedure.use(({ ctx, next }) => {
   return next({ ctx });
 });
 
-// Middleware للتحقق من تسجيل الدخول فقط
-const protectedProcedure = publicProcedure.use(({ ctx, next }) => {
-  if (!ctx.user) {
-    throw new TRPCError({
-      code: "UNAUTHORIZED",
-      message: "يجب تسجيل الدخول للوصول إلى هذه الميزة",
-    });
-  }
-  return next({ ctx });
-});
+// تم استيراد protectedProcedure من ./_core/trpc
 
 export const appRouter = router({
+  admin: router({
+    getStats: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+      }
+      const database = await db.getDb();
+      if (!database) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR' });
+      
+      const [notebooks, subjects, purchases] = await Promise.all([
+        database.select({ count: sql<number>`count(*)` }).from(notebooksTable),
+        database.select({ count: sql<number>`count(*)` }).from(subjectsTable),
+        database.select({ count: sql<number>`count(*)` }).from(purchasesTable),
+      ]);
+      
+      return {
+        totalNotebooks: Number(notebooks[0]?.count || 0),
+        totalSubjects: Number(subjects[0]?.count || 0),
+        totalPurchases: Number(purchases[0]?.count || 0),
+      };
+    }),
+  }),
   system: systemRouter,
   
   auth: router({
