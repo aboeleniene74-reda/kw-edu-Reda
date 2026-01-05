@@ -20,6 +20,8 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
+import { SessionRatingForm } from "@/components/SessionRatingForm";
+import { LiveChatBox } from "@/components/LiveChatBox";
 
 export default function SessionPage() {
   const [, params] = useRoute("/session/:slug");
@@ -299,7 +301,23 @@ export default function SessionPage() {
                   </CardContent>
                 </Card>
               )}
+
+              {/* Live Chat (during session) */}
+              {isUpcoming && isBooked && (
+                <Card className="mt-6">
+                  <CardContent className="pt-6">
+                    <LiveChatBox sessionId={session.id} sessionTitle={session.title} />
+                  </CardContent>
+                </Card>
+              )}
             </div>
+
+            {/* Session Rating (after session ends) */}
+            {!isUpcoming && (
+              <div className="lg:col-span-3 mt-8">
+                <SessionRatingForm sessionId={session.id} sessionTitle={session.title} />
+              </div>
+            )}
           </div>
         </div>
       </div>

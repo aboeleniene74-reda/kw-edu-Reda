@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
+import { SiteRatingForm } from "@/components/SiteRatingForm";
 
 export default function Home() {
   const { user, loading } = useAuth();
@@ -150,6 +151,15 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Rating Section */}
+      <section className="bg-muted/30 py-16">
+        <div className="container">
+          <div className="max-w-2xl mx-auto">
+            <SiteRatingForm />
           </div>
         </div>
       </section>
