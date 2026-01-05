@@ -1,0 +1,38 @@
+{
+  "query": "SELECT * FROM semesters ORDER BY id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT * FROM semesters ORDER BY id",
+  "rows": [
+    {
+      "id": "1",
+      "name": "الفصل الأول",
+      "nameEn": "First Semester",
+      "order": "1",
+      "createdAt": "2026-01-05 08:36:17"
+    },
+    {
+      "id": "2",
+      "name": "الفصل الثاني",
+      "nameEn": "Second Semester",
+      "order": "2",
+      "createdAt": "2026-01-05 08:36:17"
+    },
+    {
+      "id": "3",
+      "name": "الفصل الأول",
+      "nameEn": "First Semester",
+      "order": "1",
+      "createdAt": "2026-01-05 08:36:28"
+    },
+    {
+      "id": "4",
+      "name": "الفصل الثاني",
+      "nameEn": "Second Semester",
+      "order": "2",
+      "createdAt": "2026-01-05 08:36:28"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tnameEn\torder\tcreatedAt\n1\tالفصل الأول\tFirst Semester\t1\t2026-01-05 08:36:17\n2\tالفصل الثاني\tSecond Semester\t2\t2026-01-05 08:36:17\n3\tالفصل الأول\tFirst Semester\t1\t2026-01-05 08:36:28\n4\tالفصل الثاني\tSecond Semester\t2\t2026-01-05 08:36:28\n",
+  "stderr": "",
+  "execution_time_ms": 1534
+}
