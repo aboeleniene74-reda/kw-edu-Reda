@@ -1,19 +1,33 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, FileText } from "lucide-react";
+import { ArrowRight, GraduationCap, LogIn, User, BookOpen, FileText, ClipboardList, ClipboardCheck, Award, CheckCircle, FileQuestion } from "lucide-react";
 import { getLoginUrl } from "@/const";
-import { Link, useParams } from "wouter";
+import { Link, useParams, useLocation } from "wouter";
 
 export default function SubjectPage() {
   const { user, loading } = useAuth();
   const params = useParams();
+  const [, setLocation] = useLocation();
   const subjectId = parseInt(params.id || "0");
 
   const { data: subject } = trpc.subjects.getById.useQuery({ id: subjectId });
-  const { data: notebooks } = trpc.notebooks.listBySubject.useQuery({ subjectId });
+  const { data: semesters } = trpc.semesters.list.useQuery();
+  const { data: categories } = trpc.contentCategories.list.useQuery();
+
+  // أيقونات الأقسام
+  const categoryIcons: Record<string, any> = {
+    "book-open": BookOpen,
+    "file-text": FileText,
+    "clipboard-list": ClipboardList,
+    "clipboard-check": ClipboardCheck,
+    "award": Award,
+    "check-circle": CheckCircle,
+    "file-question": FileQuestion,
+  };
 
   if (!subject) {
     return (
@@ -73,96 +87,86 @@ export default function SubjectPage() {
       {/* Content */}
       <section className="container py-16">
         {/* Subject Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <div
             className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-6"
             style={{
-              backgroundColor: subject.color
-                ? `color-mix(in oklch, ${subject.color}, transparent 85%)`
-                : "oklch(0.48 0.18 250 / 0.15)",
+              backgroundColor: subject.color || "#3b82f6",
             }}
           >
-            <BookOpen
-              className="w-12 h-12"
-              style={{ color: subject.color || "oklch(0.48 0.18 250)" }}
-            />
+            <BookOpen className="w-12 h-12 text-white" />
           </div>
-          <h2 className="text-5xl font-bold mb-4">{subject.name}</h2>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{subject.name}</h1>
           {subject.description && (
-            <p className="text-xl text-muted-foreground">{subject.description}</p>
+            <p className="text-lg text-muted-foreground">{subject.description}</p>
           )}
         </div>
 
-        {/* Notebooks Grid */}
-        <div className="max-w-6xl mx-auto">
-          <h3 className="text-3xl font-bold mb-8">المذكرات المتاحة</h3>
-          
-          {!notebooks || notebooks.length === 0 ? (
-            <div className="text-center py-12">
-              <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold mb-2">لا توجد مذكرات متاحة حالياً</h3>
-              <p className="text-muted-foreground">سيتم إضافة المذكرات قريباً</p>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {notebooks.map((notebook) => (
-                <Link key={notebook.id} href={`/notebook/${notebook.id}`}>
-                  <Card className="border-2 hover:border-primary/50 transition-all cursor-pointer group h-full flex flex-col">
-                    {notebook.coverImageUrl && (
-                      <div className="w-full h-48 overflow-hidden rounded-t-lg">
-                        <img
-                          src={notebook.coverImageUrl}
-                          alt={notebook.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        />
-                      </div>
-                    )}
-                    <CardHeader className="flex-grow">
-                      <div className="flex items-start justify-between gap-2 mb-2">
-                        <CardTitle className="text-xl line-clamp-2">{notebook.title}</CardTitle>
-                        {notebook.isFeatured && (
-                          <Badge variant="default" className="shrink-0">مميزة</Badge>
-                        )}
-                      </div>
-                      {notebook.description && (
-                        <CardDescription className="line-clamp-3">{notebook.description}</CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div className="flex items-center justify-between text-sm">
-                        {notebook.pages && (
-                          <span className="text-muted-foreground">{notebook.pages} صفحة</span>
-                        )}
-                        {notebook.rating && (
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span className="font-medium">{notebook.rating}</span>
+        {/* Semesters Tabs */}
+        <Tabs defaultValue="1" className="w-full">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-12">
+            {semesters?.map((semester) => (
+              <TabsTrigger key={semester.id} value={semester.id.toString()}>
+                {semester.name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {semesters?.map((semester) => (
+            <TabsContent key={semester.id} value={semester.id.toString()}>
+              {/* Categories Grid */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {categories?.map((category) => {
+                  const IconComponent = categoryIcons[category.icon || "file-text"];
+                  
+                  return (
+                    <Card
+                      key={category.id}
+                      className="hover:shadow-lg transition-all cursor-pointer group"
+                      onClick={() => setLocation(`/subject/${subjectId}/semester/${semester.id}/category/${category.id}`)}
+                    >
+                      <CardHeader>
+                        <div className="flex items-start gap-4">
+                          <div
+                            className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                            style={{ backgroundColor: subject.color || "#3b82f6" }}
+                          >
+                            {IconComponent && <IconComponent className="w-6 h-6 text-white" />}
                           </div>
-                        )}
-                      </div>
-                      <div className="text-2xl font-bold text-primary">
-                        {parseFloat(notebook.price).toFixed(3)} د.ك
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button className="w-full">
-                        عرض التفاصيل
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          )}
+                          <div className="flex-1">
+                            <CardTitle className="text-lg mb-2">{category.name}</CardTitle>
+                            {category.description && (
+                              <CardDescription className="text-sm">
+                                {category.description}
+                              </CardDescription>
+                            )}
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <Button variant="ghost" className="w-full group-hover:bg-primary/10">
+                          عرض المحتوى
+                          <ArrowRight className="mr-2 w-4 h-4" />
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+
+        {/* Back Button */}
+        <div className="text-center mt-12">
+          <Link href="/">
+            <Button variant="outline" size="lg">
+              <ArrowRight className="ml-2 w-5 h-5" />
+              العودة للرئيسية
+            </Button>
+          </Link>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="border-t py-8 mt-16">
-        <div className="container text-center text-muted-foreground">
-          <p>© 2024 علوم ثانوي - جميع الحقوق محفوظة</p>
-        </div>
-      </footer>
     </div>
   );
 }

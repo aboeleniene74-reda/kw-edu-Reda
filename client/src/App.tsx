@@ -16,6 +16,7 @@ import AdminSessions from "./pages/AdminSessions";
 import AdminSessionNew from "./pages/AdminSessionNew";
 import Sessions from "./pages/Sessions";
 import SessionPage from "./pages/SessionPage";
+import CategoryContentPage from "./pages/CategoryContentPage";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/grade/:id"} component={GradePage} />
       <Route path={"/subject/:id"} component={SubjectPage} />
+      <Route path={"/subject/:subjectId/semester/:semesterId/category/:categoryId"} component={CategoryContentPage} />
           <Route path="/admin" component={AdminDashboard} />
       <Route path="/admin/notebooks" component={AdminNotebooks} />
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />

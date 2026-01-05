@@ -33,6 +33,8 @@ export default function AdminNotebookNew() {
     title: "",
     description: "",
     subjectId: "",
+    semesterId: "",
+    categoryId: "",
     price: "",
     pages: "",
     isFeatured: false,
@@ -45,6 +47,8 @@ export default function AdminNotebookNew() {
   });
 
   const { data: grades } = trpc.grades.list.useQuery();
+  const { data: semesters } = trpc.semesters.list.useQuery();
+  const { data: categories } = trpc.contentCategories.list.useQuery();
   const [selectedGrade, setSelectedGrade] = useState<number | null>(null);
   const { data: subjects } = trpc.subjects.listByGrade.useQuery(
     { gradeId: selectedGrade! },
@@ -64,7 +68,7 @@ export default function AdminNotebookNew() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.subjectId || !formData.price) {
+    if (!formData.title || !formData.subjectId || !formData.semesterId || !formData.categoryId || !formData.price) {
       toast.error("الرجاء ملء جميع الحقول المطلوبة");
       return;
     }
@@ -72,7 +76,10 @@ export default function AdminNotebookNew() {
     createNotebookMutation.mutate({
       title: formData.title,
       description: formData.description || undefined,
+      gradeId: selectedGrade!,
       subjectId: parseInt(formData.subjectId),
+      semesterId: parseInt(formData.semesterId),
+      categoryId: parseInt(formData.categoryId),
       price: formData.price,
       pages: formData.pages ? parseInt(formData.pages) : undefined,
       isFeatured: formData.isFeatured,
@@ -250,6 +257,26 @@ export default function AdminNotebookNew() {
                     </Select>
                   </div>
 
+                  {/* Semester Selection */}
+                  <div className="space-y-2">
+                    <Label htmlFor="semester">الفصل الدراسي *</Label>
+                    <Select
+                      value={formData.semesterId}
+                      onValueChange={(value) => setFormData({ ...formData, semesterId: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="اختر الفصل الدراسي" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {semesters?.map((semester) => (
+                          <SelectItem key={semester.id} value={semester.id.toString()}>
+                            {semester.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   {/* Subject Selection */}
                   <div className="space-y-2">
                     <Label htmlFor="subject">المادة الدراسية *</Label>
@@ -265,6 +292,26 @@ export default function AdminNotebookNew() {
                         {subjects?.map((subject) => (
                           <SelectItem key={subject.id} value={subject.id.toString()}>
                             {subject.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Category Selection */}
+                  <div className="space-y-2">
+                    <Label htmlFor="category">قسم المحتوى *</Label>
+                    <Select
+                      value={formData.categoryId}
+                      onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="اختر قسم المحتوى" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories?.map((category) => (
+                          <SelectItem key={category.id} value={category.id.toString()}>
+                            {category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>

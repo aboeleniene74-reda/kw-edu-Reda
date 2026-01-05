@@ -120,6 +120,16 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getNotebooksBySubject(input.subjectId);
       }),
+
+    listByFilters: publicProcedure
+      .input(z.object({
+        subjectId: z.number(),
+        semesterId: z.number(),
+        categoryId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getNotebooksByFilters(input.subjectId, input.semesterId, input.categoryId);
+      }),
       
     getById: publicProcedure
       .input(z.object({ id: z.number() }))
@@ -131,9 +141,12 @@ export const appRouter = router({
       return await db.getAllNotebooks();
     }),
       
-    create: teacherProcedure
+     create: teacherProcedure
       .input(z.object({
         subjectId: z.number(),
+        gradeId: z.number(),
+        semesterId: z.number(),
+        categoryId: z.number(),
         title: z.string(),
         description: z.string().optional(),
         price: z.string(),
@@ -525,6 +538,32 @@ export const appRouter = router({
       .input(z.object({ sessionId: z.number() }))
       .query(async ({ input }) => {
         return await db.getAverageSessionRating(input.sessionId);
+      }),
+  }),
+
+  // ============= Semesters Router =============
+  semesters: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllSemesters();
+    }),
+
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getSemesterById(input.id);
+      }),
+  }),
+
+  // ============= Content Categories Router =============
+  contentCategories: router({
+    list: publicProcedure.query(async () => {
+      return await db.getAllContentCategories();
+    }),
+
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getContentCategoryById(input.id);
       }),
   }),
 

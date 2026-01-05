@@ -15,6 +15,8 @@ import {
   siteRatings,
   sessionRatings,
   liveComments,
+  semesters,
+  contentCategories,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -26,7 +28,9 @@ import {
   InsertSessionBooking,
   InsertSiteRating,
   InsertSessionRating,
-  InsertLiveComment
+  InsertLiveComment,
+  InsertSemester,
+  InsertContentCategory
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -638,4 +642,71 @@ export async function getUnreadCommentsCount(sessionId: number) {
     ));
     
   return comments.length;
+}
+
+// ============= Semesters Functions =============
+
+export async function getAllSemesters() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(semesters)
+    .orderBy(semesters.order);
+}
+
+export async function getSemesterById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(semesters)
+    .where(eq(semesters.id, id))
+    .limit(1);
+    
+  return result[0] || null;
+}
+
+// ============= Content Categories Functions =============
+
+export async function getAllContentCategories() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(contentCategories)
+    .orderBy(contentCategories.order);
+}
+
+export async function getContentCategoryById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(contentCategories)
+    .where(eq(contentCategories.id, id))
+    .limit(1);
+    
+  return result[0] || null;
+}
+
+// Get notebooks by filters (subject, semester, category)
+export async function getNotebooksByFilters(subjectId: number, semesterId: number, categoryId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db
+    .select()
+    .from(notebooks)
+    .where(and(
+      eq(notebooks.subjectId, subjectId),
+      eq(notebooks.semesterId, semesterId),
+      eq(notebooks.categoryId, categoryId),
+      eq(notebooks.isPublished, true)
+    ))
+    .orderBy(desc(notebooks.isFeatured), desc(notebooks.createdAt));
 }

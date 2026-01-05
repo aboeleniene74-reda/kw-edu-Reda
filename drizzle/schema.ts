@@ -55,12 +55,47 @@ export type Subject = typeof subjects.$inferSelect;
 export type InsertSubject = typeof subjects.$inferInsert;
 
 /**
+ * جدول الفصول الدراسية
+ * الفصل الأول والفصل الثاني
+ */
+export const semesters = mysqlTable("semesters", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // "الفصل الأول"
+  nameEn: varchar("nameEn", { length: 100 }).notNull(), // "First Semester"
+  order: int("order").notNull(), // 1, 2
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Semester = typeof semesters.$inferSelect;
+export type InsertSemester = typeof semesters.$inferInsert;
+
+/**
+ * جدول أقسام المحتوى
+ * الأقسام السبعة لكل فصل دراسي
+ */
+export const contentCategories = mysqlTable("content_categories", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  nameEn: varchar("nameEn", { length: 100 }).notNull(),
+  order: int("order").notNull(), // 1-7
+  icon: varchar("icon", { length: 50 }),
+  description: text("description"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ContentCategory = typeof contentCategories.$inferSelect;
+export type InsertContentCategory = typeof contentCategories.$inferInsert;
+
+/**
  * جدول المذكرات الدراسية
  * المذكرات المتاحة للبيع لكل مادة
  */
 export const notebooks = mysqlTable("notebooks", {
   id: int("id").autoincrement().primaryKey(),
   subjectId: int("subjectId").notNull().references(() => subjects.id),
+  semesterId: int("semesterId").notNull().references(() => semesters.id),
+  categoryId: int("categoryId").notNull().references(() => contentCategories.id),
+  gradeId: int("gradeId").notNull().references(() => grades.id), // للبحث السريع
   teacherId: int("teacherId").references(() => users.id), // المعلم صاحب المذكرة
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
