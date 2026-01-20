@@ -39,6 +39,11 @@ export default function AdminNotebookNew() {
     pages: "",
     isFeatured: false,
   });
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const uploadFileMutation = trpc.notebooks.uploadFile.useMutation();
 
   const logoutMutation = trpc.auth.logout.useMutation({
     onSuccess: () => {
@@ -65,7 +70,7 @@ export default function AdminNotebookNew() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.title || !formData.subjectId || !formData.semesterId || !formData.categoryId || !formData.price) {
@@ -73,16 +78,63 @@ export default function AdminNotebookNew() {
       return;
     }
 
-    createNotebookMutation.mutate({
-      title: formData.title,
-      description: formData.description || undefined,
-      gradeId: selectedGrade!,
-      subjectId: parseInt(formData.subjectId),
-      semesterId: parseInt(formData.semesterId),
-      categoryId: parseInt(formData.categoryId),
-      price: formData.price,
-      pages: formData.pages ? parseInt(formData.pages) : undefined,
-      isFeatured: formData.isFeatured,
+    setUploading(true);
+    let fileUrl: string | undefined;
+    let coverImageUrl: string | undefined;
+
+    try {
+      // رفع ملف PDF
+      if (pdfFile) {
+        const pdfBase64 = await fileToBase64(pdfFile);
+        const pdfResult = await uploadFileMutation.mutateAsync({
+          file: pdfBase64,
+          fileName: pdfFile.name,
+          contentType: pdfFile.type,
+        });
+        fileUrl = pdfResult.url;
+      }
+
+      // رفع صورة الغلاف
+      if (coverImage) {
+        const coverBase64 = await fileToBase64(coverImage);
+        const coverResult = await uploadFileMutation.mutateAsync({
+          file: coverBase64,
+          fileName: coverImage.name,
+          contentType: coverImage.type,
+        });
+        coverImageUrl = coverResult.url;
+      }
+
+      createNotebookMutation.mutate({
+        title: formData.title,
+        description: formData.description || undefined,
+        gradeId: selectedGrade!,
+        subjectId: parseInt(formData.subjectId),
+        semesterId: parseInt(formData.semesterId),
+        categoryId: parseInt(formData.categoryId),
+        price: formData.price,
+        pages: formData.pages ? parseInt(formData.pages) : undefined,
+        fileUrl,
+        coverImageUrl,
+        isFeatured: formData.isFeatured,
+        isPublished: true,
+      });
+    } catch (error) {
+      toast.error("فشل رفع الملفات");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64 = (reader.result as string).split(',')[1];
+        resolve(base64);
+      };
+      reader.onerror = reject;
     });
   };
 
@@ -360,19 +412,50 @@ export default function AdminNotebookNew() {
                     </Label>
                   </div>
 
-                  {/* File Upload Placeholder */}
+                  {/* File Upload */}
                   <div className="space-y-4 pt-4 border-t">
-                    <h3 className="font-semibold">الملفات (قريباً)</h3>
+                    <h3 className="font-semibold">رفع الملفات</h3>
                     <div className="grid md:grid-cols-2 gap-4">
-                      <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                        <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">رفع صورة الغلاف</p>
-                        <p className="text-xs text-muted-foreground mt-1">قريباً</p>
+                      {/* Cover Image */}
+                      <div className="space-y-2">
+                        <Label htmlFor="coverImage">صورة الغلاف</Label>
+                        <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer"
+                          onClick={() => document.getElementById('coverImage')?.click()}
+                        >
+                          <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">
+                            {coverImage ? coverImage.name : 'اضغط لرفع صورة الغلاف'}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">JPG, PNG (أقصى 5MB)</p>
+                        </div>
+                        <Input
+                          id="coverImage"
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => setCoverImage(e.target.files?.[0] || null)}
+                        />
                       </div>
-                      <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                        <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">رفع ملف PDF</p>
-                        <p className="text-xs text-muted-foreground mt-1">قريباً</p>
+
+                      {/* PDF File */}
+                      <div className="space-y-2">
+                        <Label htmlFor="pdfFile">ملف PDF</Label>
+                        <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer"
+                          onClick={() => document.getElementById('pdfFile')?.click()}
+                        >
+                          <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">
+                            {pdfFile ? pdfFile.name : 'اضغط لرفع ملف PDF'}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">PDF (أقصى 50MB)</p>
+                        </div>
+                        <Input
+                          id="pdfFile"
+                          type="file"
+                          accept=".pdf"
+                          className="hidden"
+                          onChange={(e) => setPdfFile(e.target.files?.[0] || null)}
+                        />
                       </div>
                     </div>
                   </div>
@@ -381,10 +464,10 @@ export default function AdminNotebookNew() {
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="submit"
-                      disabled={createNotebookMutation.isPending}
+                      disabled={createNotebookMutation.isPending || uploading}
                       className="flex-1"
                     >
-                      {createNotebookMutation.isPending ? "جاري الحفظ..." : "حفظ المذكرة"}
+                      {uploading ? "جاري رفع الملفات..." : createNotebookMutation.isPending ? "جاري الحفظ..." : "حفظ المذكرة"}
                     </Button>
                     <Link href="/admin/notebooks">
                       <Button type="button" variant="outline">

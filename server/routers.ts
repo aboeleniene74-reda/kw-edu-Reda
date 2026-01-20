@@ -141,6 +141,21 @@ export const appRouter = router({
       return await db.getAllNotebooks();
     }),
       
+    uploadFile: teacherProcedure
+      .input(z.object({
+        file: z.string(), // base64 encoded file
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const { storagePut } = await import('./storage');
+        const buffer = Buffer.from(input.file, 'base64');
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const fileKey = `notebooks/${Date.now()}-${randomSuffix}-${input.fileName}`;
+        const { url } = await storagePut(fileKey, buffer, input.contentType);
+        return { url, key: fileKey };
+      }),
+
      create: teacherProcedure
       .input(z.object({
         subjectId: z.number(),
