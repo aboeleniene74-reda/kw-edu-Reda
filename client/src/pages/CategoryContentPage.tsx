@@ -200,35 +200,24 @@ export default function CategoryContentPage() {
                     معاينة المذكرة
                   </Button>
                   
-                  {parseFloat(notebook.price) === 0 ? (
-                    /* زر التحميل للمذكرات المجانية */
+                  {/* أزرار التواصل */}
+                  <div className="flex gap-2 w-full">
                     <Button
-                      className="w-full"
-                      onClick={() => handleDownload(notebook)}
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => handleCall(notebook)}
                     >
-                      <Download className="ml-2 w-5 h-5" />
-                      تحميل مجاني
+                      <Phone className="ml-2 w-5 h-5" />
+                      اتصال
                     </Button>
-                  ) : (
-                    /* أزرار الشراء للمذكرات المدفوعة */
-                    <div className="flex gap-2 w-full">
-                      <Button
-                        variant="outline"
-                        className="flex-1"
-                        onClick={() => handleCall(notebook)}
-                      >
-                        <Phone className="ml-2 w-5 h-5" />
-                        اتصال
-                      </Button>
-                      <Button
-                        className="flex-1 bg-green-600 hover:bg-green-700"
-                        onClick={() => handleWhatsApp(notebook)}
-                      >
-                        <MessageCircle className="ml-2 w-5 h-5" />
-                        واتساب
-                      </Button>
-                    </div>
-                  )}
+                    <Button
+                      className="flex-1 bg-green-600 hover:bg-green-700"
+                      onClick={() => handleWhatsApp(notebook)}
+                    >
+                      <MessageCircle className="ml-2 w-5 h-5" />
+                      واتساب
+                    </Button>
+                  </div>
                 </CardFooter>
               </Card>
             ))
