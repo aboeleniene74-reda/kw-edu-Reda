@@ -185,7 +185,7 @@ export default function CategoryContentPage() {
                     variant="outline"
                     className="w-full"
                     onClick={() => handlePreview(notebook)}
-                    disabled={!notebook.fileUrl}
+                    disabled={!notebook.previewUrl && !notebook.fileUrl}
                   >
                     <Eye className="ml-2 w-5 h-5" />
                     معاينة المذكرة
