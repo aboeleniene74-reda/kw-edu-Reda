@@ -499,3 +499,13 @@
 - [x] تحديث SEO meta tags
 - [x] اختبار التغييرات
 - [x] حفظ نقطة استعادة
+
+
+## طلب جديد: استهداف الكويت كدولة رئيسية
+
+- [x] إضافة geo meta tags (geo.region, geo.placename, geo.position, ICBM)
+- [x] إضافة content-language وlanguage meta tags
+- [x] إضافة Schema.org EducationalOrganization markup
+- [x] إضافة hreflang للغة العربية في الكويت (ar-kw)
+- [x] اختبار التحسينات
+- [x] حفظ نقطة استعادة

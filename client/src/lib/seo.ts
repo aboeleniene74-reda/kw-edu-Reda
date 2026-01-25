@@ -32,6 +32,16 @@ export function updateSEO(config: SEOConfig) {
     updateMetaTag("og:image", config.ogImage, "property");
   }
 
+  // Geographic targeting
+  updateMetaTag("geo.region", "KW");
+  updateMetaTag("geo.placename", "الكويت");
+  updateMetaTag("geo.position", "29.3759;47.9774"); // Kuwait City coordinates
+  updateMetaTag("ICBM", "29.3759, 47.9774");
+  
+  // Language and region
+  updateMetaTag("language", "Arabic");
+  updateMetaTag("content-language", "ar-KW");
+  
   // Twitter Card tags
   updateMetaTag("twitter:card", "summary_large_image");
   updateMetaTag("twitter:title", config.title);
