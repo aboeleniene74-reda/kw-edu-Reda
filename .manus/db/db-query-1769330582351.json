@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, type, notebookId, userId, createdAt FROM statistics ORDER BY createdAt DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, type, notebookId, userId, createdAt FROM statistics ORDER BY createdAt DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "5",
+      "type": "visit",
+      "notebookId": "NULL",
+      "userId": "1",
+      "createdAt": "2026-01-05 08:24:44"
+    },
+    {
+      "id": "4",
+      "type": "visit",
+      "notebookId": "NULL",
+      "userId": "1",
+      "createdAt": "2026-01-05 08:02:35"
+    },
+    {
+      "id": "3",
+      "type": "visit",
+      "notebookId": "NULL",
+      "userId": "1",
+      "createdAt": "2026-01-05 07:52:16"
+    },
+    {
+      "id": "2",
+      "type": "visit",
+      "notebookId": "NULL",
+      "userId": "1",
+      "createdAt": "2026-01-05 07:39:22"
+    },
+    {
+      "id": "1",
+      "type": "visit",
+      "notebookId": "NULL",
+      "userId": "1",
+      "createdAt": "2026-01-05 07:38:57"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttype\tnotebookId\tuserId\tcreatedAt\n5\tvisit\tNULL\t1\t2026-01-05 08:24:44\n4\tvisit\tNULL\t1\t2026-01-05 08:02:35\n3\tvisit\tNULL\t1\t2026-01-05 07:52:16\n2\tvisit\tNULL\t1\t2026-01-05 07:39:22\n1\tvisit\tNULL\t1\t2026-01-05 07:38:57\n",
+  "stderr": "",
+  "execution_time_ms": 1496
+}

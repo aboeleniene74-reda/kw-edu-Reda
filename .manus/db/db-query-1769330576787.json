@@ -1,0 +1,55 @@
+{
+  "query": "SELECT * FROM statistics LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT * FROM statistics LIMIT 20;",
+  "rows": [
+    {
+      "id": "1",
+      "notebookId": "NULL",
+      "type": "visit",
+      "userId": "1",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Test Browser",
+      "createdAt": "2026-01-05 07:38:57"
+    },
+    {
+      "id": "2",
+      "notebookId": "NULL",
+      "type": "visit",
+      "userId": "1",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Test Browser",
+      "createdAt": "2026-01-05 07:39:22"
+    },
+    {
+      "id": "3",
+      "notebookId": "NULL",
+      "type": "visit",
+      "userId": "1",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Test Browser",
+      "createdAt": "2026-01-05 07:52:16"
+    },
+    {
+      "id": "4",
+      "notebookId": "NULL",
+      "type": "visit",
+      "userId": "1",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Test Browser",
+      "createdAt": "2026-01-05 08:02:35"
+    },
+    {
+      "id": "5",
+      "notebookId": "NULL",
+      "type": "visit",
+      "userId": "1",
+      "ipAddress": "127.0.0.1",
+      "userAgent": "Test Browser",
+      "createdAt": "2026-01-05 08:24:44"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tnotebookId\ttype\tuserId\tipAddress\tuserAgent\tcreatedAt\n1\tNULL\tvisit\t1\t127.0.0.1\tTest Browser\t2026-01-05 07:38:57\n2\tNULL\tvisit\t1\t127.0.0.1\tTest Browser\t2026-01-05 07:39:22\n3\tNULL\tvisit\t1\t127.0.0.1\tTest Browser\t2026-01-05 07:52:16\n4\tNULL\tvisit\t1\t127.0.0.1\tTest Browser\t2026-01-05 08:02:35\n5\tNULL\tvisit\t1\t127.0.0.1\tTest Browser\t2026-01-05 08:24:44\n",
+  "stderr": "",
+  "execution_time_ms": 1537
+}

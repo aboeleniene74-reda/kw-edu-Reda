@@ -14,6 +14,7 @@ import { useState } from "react";
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
   const [previewNotebook, setPreviewNotebook] = useState<any>(null);
+  const trackView = trpc.statistics.trackView.useMutation();
   const params = useParams();
   const gradeId = parseInt(params.gradeId || "0");
   const semesterId = parseInt(params.semesterId || "0");
@@ -38,6 +39,12 @@ export default function CategoryContentPage() {
     // استخدام previewUrl إذا كان متوفراً، وإلا fileUrl
     if (notebook.previewUrl || notebook.fileUrl) {
       setPreviewNotebook(notebook);
+      
+      // تتبع مشاهدة المذكرة
+      trackView.mutate({
+        notebookId: notebook.id,
+        ipAddress: undefined,
+      });
     } else {
       toast.error("رابط المعاينة غير متوفر");
     }

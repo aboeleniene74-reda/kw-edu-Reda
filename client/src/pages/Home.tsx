@@ -14,9 +14,16 @@ import { updateSEO, defaultSEO } from "@/lib/seo";
 export default function Home() {
   const { user, loading } = useAuth();
   const { data: grades } = trpc.grades.list.useQuery();
+  const trackVisit = trpc.statistics.trackVisit.useMutation();
 
   useEffect(() => {
     updateSEO(defaultSEO);
+    
+    // تتبع زيارة الصفحة الرئيسية
+    trackVisit.mutate({
+      ipAddress: undefined,
+      userAgent: navigator.userAgent,
+    });
   }, []);
 
   return (

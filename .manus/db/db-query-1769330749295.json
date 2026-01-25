@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO notebooks (subjectId, gradeId, semesterId, categoryId, teacherId, title, description, price, pages, fileUrl, previewUrl, coverImageUrl, isPublished, isFeatured, createdAt, updatedAt) \nVALUES (7, 2, 1, 2, 1, 'ملخص الزبدة - جيولوجيا 11', 'ملخص شامل لمادة الجيولوجيا للصف الحادي عشر الفصل الأول', '0', 50, 'https://example.com/test.pdf', 'https://example.com/preview.pdf', 'https://example.com/cover.jpg', 1, 1, NOW(), NOW());",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute INSERT INTO notebooks (subjectId, gradeId, semesterId, categoryId, teacherId, title, description, price, pages, fileUrl, previewUrl, coverImageUrl, isPublished, isFeatured, createdAt, updatedAt) \nVALUES (7, 2, 1, 2, 1, 'ملخص الزبدة - جيولوجيا 11', 'ملخص شامل لمادة الجيولوجيا للصف الحادي عشر الفصل الأول', '0', 50, 'https://example.com/test.pdf', 'https://example.com/preview.pdf', 'https://example.com/cover.jpg', 1, 1, NOW(), NOW());",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1531
+}
