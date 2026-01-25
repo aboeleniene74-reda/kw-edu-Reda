@@ -205,6 +205,13 @@ export async function createNotebook(notebook: InsertNotebook) {
   await db.insert(notebooks).values(notebook);
 }
 
+export async function updateNotebook(id: number, data: Partial<InsertNotebook>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(notebooks).set(data).where(eq(notebooks.id, id));
+}
+
 export async function getAllNotebooks() {
   const db = await getDb();
   if (!db) return [];

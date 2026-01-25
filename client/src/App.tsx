@@ -10,6 +10,7 @@ import SubjectPage from "./pages/SubjectPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminNotebooks from "./pages/AdminNotebooks";
 import AdminNotebookNew from "./pages/AdminNotebookNew";
+import AdminNotebookEdit from "./pages/AdminNotebookEdit";
 import AdminStatistics from "./pages/AdminStatistics";
 import AdminComments from "./pages/AdminComments";
 import AdminSessions from "./pages/AdminSessions";
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/admin/dashboard/notifications" component={AdminNotificationsManagement} />
       <Route path="/admin/notebooks" component={AdminNotebooks} />
       <Route path="/admin/notebooks/new" component={AdminNotebookNew} />
+      <Route path="/admin/notebooks/:id/edit" component={AdminNotebookEdit} />
       <Route path="/admin/statistics" component={AdminStatistics} />
       <Route path="/admin/comments" component={AdminComments} />
       <Route path="/admin/sessions" component={AdminSessions} />

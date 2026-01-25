@@ -343,6 +343,32 @@ export const appRouter = router({
         return await db.getNotebookRatingStats(input.notebookId);
       }),
 
+    // تعديل مذكرة
+    update: teacherProcedure
+      .input(z.object({
+        id: z.number(),
+        subjectId: z.number().optional(),
+        gradeId: z.number().optional(),
+        semesterId: z.number().optional(),
+        categoryId: z.number().optional(),
+        title: z.string().optional(),
+        description: z.string().optional(),
+        price: z.string().optional(),
+        pages: z.number().optional(),
+        fileUrl: z.string().optional(),
+        previewUrl: z.string().optional(),
+        coverImageUrl: z.string().optional(),
+        isPublished: z.boolean().optional(),
+        isFeatured: z.boolean().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== 'admin' && ctx.user?.role !== 'teacher') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        await db.updateNotebook(input.id, input);
+        return { success: true };
+      }),
+
     // حذف مذكرة
     delete: teacherProcedure
       .input(z.object({ id: z.number() }))
