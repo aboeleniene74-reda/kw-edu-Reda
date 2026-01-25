@@ -24,6 +24,7 @@ import TermsOfService from "./pages/TermsOfService";
 import AdminDashboardNew from "./pages/AdminDashboardNew";
 import AdminContentManagement from "./pages/AdminContentManagement";
 import AdminNotificationsManagement from "./pages/AdminNotificationsManagement";
+import Sitemap from "./pages/Sitemap";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
       <Route path={"/about"} component={AboutPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/terms"} component={TermsOfService} />
+      <Route path={"/sitemap.xml"} component={Sitemap} />
       <Route path={"/grade/:id"} component={GradePage} />
       <Route path={"/grade/:gradeId/semester/:semesterId"} component={SemesterPage} />
       <Route path={"/grade/:gradeId/semester/:semesterId/subject/:subjectId"} component={SubjectPage} />

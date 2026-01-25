@@ -858,6 +858,34 @@ export const appRouter = router({
         return await db.getUnreadCommentsCount(input.sessionId);
       }),
   }),
+  
+  // Sitemap endpoint
+  sitemap: router({
+    getUrls: publicProcedure.query(async () => {
+      const baseUrl = "https://kuwait-secondary-school.manus.space";
+      const currentDate = new Date().toISOString();
+      
+      // Static pages
+      const staticPages = [
+        { url: `${baseUrl}/`, priority: 1.0, changefreq: "daily" },
+        { url: `${baseUrl}/about`, priority: 0.8, changefreq: "monthly" },
+        { url: `${baseUrl}/sessions`, priority: 0.9, changefreq: "weekly" },
+        { url: `${baseUrl}/privacy`, priority: 0.3, changefreq: "yearly" },
+        { url: `${baseUrl}/terms`, priority: 0.3, changefreq: "yearly" },
+      ];
+      
+      // Get all notebooks
+      const notebooks = await db.getAllNotebooksForSitemap();
+      const notebookPages = notebooks.map(notebook => ({
+        url: `${baseUrl}/notebook/${notebook.id}`,
+        lastmod: notebook.updatedAt?.toISOString() || currentDate,
+        priority: 0.7,
+        changefreq: "weekly"
+      }));
+      
+      return [...staticPages, ...notebookPages];
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

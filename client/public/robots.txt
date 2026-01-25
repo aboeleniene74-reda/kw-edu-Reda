@@ -1,0 +1,21 @@
+# robots.txt for منصة ثانوي علمي بالكويت
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://kuwait-secondary-school.manus.space/sitemap.xml
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /api/
+
+# Allow search engines to crawl all public content
+Allow: /grade/
+Allow: /semester/
+Allow: /subject/
+Allow: /category/
+Allow: /sessions
+Allow: /about
+Allow: /privacy
+Allow: /terms

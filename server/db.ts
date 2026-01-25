@@ -1152,3 +1152,18 @@ export async function deleteNotebook(notebookId: number) {
   
   await db.delete(notebooks).where(eq(notebooks.id, notebookId));
 }
+
+
+// Get all notebooks for sitemap
+export async function getAllNotebooksForSitemap() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  return await db
+    .select({
+      id: notebooks.id,
+      updatedAt: notebooks.updatedAt,
+    })
+    .from(notebooks)
+    .orderBy(desc(notebooks.updatedAt));
+}

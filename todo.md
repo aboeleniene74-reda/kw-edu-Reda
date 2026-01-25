@@ -509,3 +509,25 @@
 - [x] إضافة hreflang للغة العربية في الكويت (ar-kw)
 - [x] اختبار التحسينات
 - [x] حفظ نقطة استعادة
+
+
+## طلب جديد: ثلاث تحسينات (GSC، Sitemap، السرعة)
+
+### 1. Google Search Console
+- [x] إنشاء robots.txt
+- [x] كتابة إرشادات الإعداد للمستخدم (GOOGLE_SEARCH_CONSOLE_SETUP.md)
+
+### 2. Sitemap.xml
+- [x] إنشاء API endpoint لـ /sitemap.xml
+- [x] جلب جميع الصفحات والمذكرات من قاعدة البيانات
+- [x] توليد XML بتنسيق sitemap صحيح
+- [x] إضافة sitemap إلى robots.txt
+
+### 3. تحسين السرعة
+- [x] إضافة lazy loading للصور (LazyImage component)
+- [x] تحسين تحميل الخطوط (preload + async)
+- [x] إضافة preload للموارد الحرجة
+
+### النهائي
+- [x] اختبار شامل
+- [x] حفظ نقطة استعادة
