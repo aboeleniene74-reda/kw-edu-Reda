@@ -1,0 +1,73 @@
+{
+  "query": "SELECT * FROM content_categories ORDER BY `order`;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT * FROM content_categories ORDER BY `order`;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "الكتاب المدرسي",
+      "nameEn": "Textbook",
+      "order": "1",
+      "icon": "book-open",
+      "description": "الكتاب المدرسي الرسمي من وزارة التربية",
+      "createdAt": "2026-01-05 08:36:18"
+    },
+    {
+      "id": "2",
+      "name": "ملخصات الشرح",
+      "nameEn": "Study Summaries",
+      "order": "2",
+      "icon": "file-text",
+      "description": "ملخصات شاملة لجميع دروس الفصل",
+      "createdAt": "2026-01-05 08:36:18"
+    },
+    {
+      "id": "3",
+      "name": "مراجعات قصير 1",
+      "nameEn": "Quiz 1 Reviews",
+      "order": "3",
+      "icon": "clipboard-list",
+      "description": "مراجعات ونماذج للاختبار القصير الأول",
+      "createdAt": "2026-01-05 08:36:18"
+    },
+    {
+      "id": "4",
+      "name": "مراجعات قصير 2",
+      "nameEn": "Quiz 2 Reviews",
+      "order": "4",
+      "icon": "clipboard-check",
+      "description": "مراجعات ونماذج للاختبار القصير الثاني",
+      "createdAt": "2026-01-05 08:36:18"
+    },
+    {
+      "id": "5",
+      "name": "مراجعات الفاينل",
+      "nameEn": "Final Exam Reviews",
+      "order": "5",
+      "icon": "award",
+      "description": "مراجعات شاملة للاختبار النهائي",
+      "createdAt": "2026-01-05 08:36:19"
+    },
+    {
+      "id": "6",
+      "name": "نماذج اختبارات سابقة محلولة",
+      "nameEn": "Solved Past Papers",
+      "order": "6",
+      "icon": "check-circle",
+      "description": "نماذج اختبارات الأعوام السابقة مع الحلول",
+      "createdAt": "2026-01-05 08:36:19"
+    },
+    {
+      "id": "7",
+      "name": "نماذج اختبارات سابقة غير محلولة",
+      "nameEn": "Unsolved Past Papers",
+      "order": "7",
+      "icon": "file-question",
+      "description": "نماذج اختبارات للتدريب والممارسة",
+      "createdAt": "2026-01-05 08:36:19"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tnameEn\torder\ticon\tdescription\tcreatedAt\n1\tالكتاب المدرسي\tTextbook\t1\tbook-open\tالكتاب المدرسي الرسمي من وزارة التربية\t2026-01-05 08:36:18\n2\tملخصات الشرح\tStudy Summaries\t2\tfile-text\tملخصات شاملة لجميع دروس الفصل\t2026-01-05 08:36:18\n3\tمراجعات قصير 1\tQuiz 1 Reviews\t3\tclipboard-list\tمراجعات ونماذج للاختبار القصير الأول\t2026-01-05 08:36:18\n4\tمراجعات قصير 2\tQuiz 2 Reviews\t4\tclipboard-check\tمراجعات ونماذج للاختبار القصير الثاني\t2026-01-05 08:36:18\n5\tمراجعات الفاينل\tFinal Exam Reviews\t5\taward\tمراجعات شاملة للاختبار النهائي\t2026-01-05 08:36:19\n6\tنماذج اختبارات سابقة محلولة\tSolved Past Papers\t6\tcheck-circle\tنماذج اختبارات الأعوام السابقة مع الحلول\t2026-01-05 08:36:19\n7\tنماذج اختبارات سابقة غير محلولة\tUnsolved Past Papers\t7\tfile-question\tنماذج اختبارات للتدريب والممارسة\t2026-01-05 08:36:19\n",
+  "stderr": "",
+  "execution_time_ms": 1584
+}

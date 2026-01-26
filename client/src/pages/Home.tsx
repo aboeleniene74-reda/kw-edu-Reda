@@ -226,6 +226,11 @@ export default function Home() {
                       <a href="tel:99457080" className="text-xl font-bold hover:text-primary transition-colors">
                         99457080
                       </a>
+                      <div className="mt-1">
+                        <span className="inline-flex items-center gap-1 bg-green-500 text-white px-2 py-1 rounded text-xs font-bold">
+                          التوصيل المجاني
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>

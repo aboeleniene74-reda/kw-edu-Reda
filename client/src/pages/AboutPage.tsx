@@ -141,6 +141,11 @@ export default function AboutPage() {
             <div className="text-center space-y-2">
               <p className="text-xl font-bold">فارس العلوم</p>
               <p className="text-2xl font-bold">📞 99457080</p>
+              <div className="flex items-center justify-center gap-2 mt-2">
+                <span className="inline-flex items-center gap-1 bg-green-500 text-white px-3 py-1.5 rounded-lg text-sm font-bold">
+                  ✅ التوصيل المجاني
+                </span>
+              </div>
               <p className="text-blue-50">متاح للرد على استفساراتكم في أي وقت</p>
             </div>
           </CardContent>

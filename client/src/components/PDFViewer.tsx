@@ -108,15 +108,18 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
         <div className="bg-gradient-to-r from-primary to-primary/80 text-white p-4" dir="rtl">
           <div className="text-center">
             <p className="font-bold text-lg mb-1">للحصول على المذكرة الكاملة</p>
-            <p className="text-sm">
-              تواصل مع فارس العلوم: 
-              <a href="tel:99457080" className="font-bold mx-2 hover:underline">99457080</a>
-              أو عبر واتساب:
+            <p className="text-sm flex items-center justify-center gap-2 flex-wrap">
+              <span>تواصل مع فارس العلوم:</span>
+              <a href="tel:99457080" className="font-bold hover:underline">99457080</a>
+              <span className="inline-flex items-center gap-1 bg-green-500 text-white px-2 py-0.5 rounded text-xs font-bold">
+                التوصيل المجاني
+              </span>
+              <span>أو عبر واتساب:</span>
               <a 
                 href="https://wa.me/96599457080" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="font-bold mr-2 hover:underline"
+                className="font-bold hover:underline"
               >
                 اضغط هنا
               </a>

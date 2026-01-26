@@ -8,6 +8,7 @@ import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
 import { PDFViewer } from "@/components/PDFViewer";
+import { TextbookPDFViewer } from "@/components/TextbookPDFViewer";
 import { NotebookRating } from "@/components/NotebookRating";
 import { useState } from "react";
 
@@ -258,11 +259,19 @@ export default function CategoryContentPage() {
 
       {/* PDF Viewer Modal */}
       {previewNotebook && (
-        <PDFViewer
-          fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
-          title={previewNotebook.title}
-          onClose={() => setPreviewNotebook(null)}
-        />
+        categoryId === 1 ? (
+          <TextbookPDFViewer
+            fileUrl={previewNotebook.fileUrl}
+            title={previewNotebook.title}
+            onClose={() => setPreviewNotebook(null)}
+          />
+        ) : (
+          <PDFViewer
+            fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
+            title={previewNotebook.title}
+            onClose={() => setPreviewNotebook(null)}
+          />
+        )
       )}
     </div>
   );
