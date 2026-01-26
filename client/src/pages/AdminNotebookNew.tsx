@@ -22,7 +22,6 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -165,7 +164,7 @@ export default function AdminNotebookNew() {
           </CardHeader>
           <CardContent className="space-y-3">
             {!user ? (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button className="w-full">تسجيل الدخول</Button>
               </a>
             ) : (

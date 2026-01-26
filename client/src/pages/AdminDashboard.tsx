@@ -16,7 +16,6 @@ import {
   Video
 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
 
 export default function AdminDashboard() {
   const { user, loading } = useAuth();
@@ -44,7 +43,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent className="space-y-3">
             {!user ? (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button className="w-full">تسجيل الدخول</Button>
               </a>
             ) : (

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { ArrowRight, BookOpen, GraduationCap, LogIn, User } from "lucide-react";
-import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 
 export default function SemesterPage() {
@@ -62,7 +61,7 @@ export default function SemesterPage() {
                 </div>
               </div>
             ) : (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button>
                   <LogIn className="ml-2 w-5 h-5" />
                   تسجيل الدخول

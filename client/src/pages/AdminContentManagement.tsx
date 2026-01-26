@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Phone, Settings, ArrowRight } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -26,7 +25,7 @@ export default function AdminContentManagement() {
   // Redirect if not admin
   if (!loading && (!user || user.role !== 'admin')) {
     if (!user) {
-      window.location.href = getLoginUrl();
+      window.location.href = "/login";
     } else {
       setLocation('/');
     }

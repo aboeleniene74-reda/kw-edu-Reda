@@ -174,6 +174,41 @@ export const appRouter = router({
       ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
       return { success: true } as const;
     }),
+    login: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await db.loginUser(input.email, input.password);
+        if (!user) {
+          throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+          });
+        }
+        // TODO: Set session cookie
+        return { success: true, user };
+      }),
+    register: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+        name: z.string().min(2),
+        phone: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const existingUser = await db.getUserByEmail(input.email);
+        if (existingUser) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "هذا البريد الإلكتروني مستخدم بالفعل",
+          });
+        }
+        const user = await db.createUser(input);
+        // TODO: Set session cookie
+        return { success: true, user };
+      }),
   }),
 
   // ============= Grades (الصفوف الدراسية) =============

@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react";
-import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { SiteRatingForm } from "@/components/SiteRatingForm";
 import { SearchBox } from "@/components/SearchBox";
@@ -71,7 +70,7 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button>
                   <LogIn className="ml-2 w-5 h-5" />
                   تسجيل الدخول

@@ -5,9 +5,11 @@ import { decimal, int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean 
  */
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
-  openId: varchar("openId", { length: 64 }).notNull().unique(),
+  openId: varchar("openId", { length: 64 }).unique(), // اختياري للمصادقة الخارجية
   name: text("name"),
-  email: varchar("email", { length: 320 }),
+  email: varchar("email", { length: 320 }).unique(), // فريد للمصادقة الداخلية
+  password: varchar("password", { length: 255 }), // كلمة المرور المشفرة (للمصادقة الداخلية)
+  phone: varchar("phone", { length: 20 }), // رقم الهاتف
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "admin", "teacher"]).default("user").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

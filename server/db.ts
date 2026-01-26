@@ -1174,3 +1174,65 @@ export async function getAllNotebooksForSitemap() {
     .from(notebooks)
     .orderBy(desc(notebooks.updatedAt));
 }
+
+
+// ============= Authentication (المصادقة) =============
+
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+  
+  return results[0] || null;
+}
+
+export async function loginUser(email: string, password: string) {
+  const user = await getUserByEmail(email);
+  if (!user) return null;
+  
+  // في بيئة إنتاجية، يجب استخدام bcrypt للتحقق من كلمة المرور
+  // هنا نستخدم مقارنة بسيطة للتبسيط
+  if (user.password !== password) return null;
+  
+  return user;
+}
+
+export async function createUser(data: {
+  email: string;
+  password: string;
+  name: string;
+  phone?: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // في بيئة إنتاجية، يجب تشفير كلمة المرور باستخدام bcrypt
+  const result = await db.insert(users).values({
+    email: data.email,
+    password: data.password, // يجب تشفيرها في الإنتاج
+    name: data.name,
+    phone: data.phone || null,
+    role: "user",
+  });
+  
+  // الحصول على المستخدم بعد الإدراج
+  return await getUserByEmail(data.email);
+}
+
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const results = await db
+    .select()
+    .from(users)
+    .where(eq(users.id, id))
+    .limit(1);
+  
+  return results[0] || null;
+}

@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Eye, MessageCircle, Phone } from "lucide-react";
-import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
 import { PDFViewer } from "@/components/PDFViewer";
@@ -109,7 +108,7 @@ export default function CategoryContentPage() {
                 </div>
               </div>
             ) : (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button>
                   <LogIn className="ml-2 w-5 h-5" />
                   تسجيل الدخول

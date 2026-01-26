@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/select";
 import { Bell, Send, ArrowRight, Trash2, FileText, Video, Info, AlertCircle, CheckCircle } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { getLoginUrl } from "@/const";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -35,7 +34,7 @@ export default function AdminNotificationsManagement() {
   // Redirect if not admin
   if (!loading && (!user || user.role !== 'admin')) {
     if (!user) {
-      window.location.href = getLoginUrl();
+      window.location.href = "/login";
     } else {
       setLocation('/');
     }

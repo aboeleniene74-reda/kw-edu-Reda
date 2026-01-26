@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
 import { ArrowRight, BookOpen, GraduationCap, LogIn, User, FileText } from "lucide-react";
-import { getLoginUrl } from "@/const";
 import { Link, useParams } from "wouter";
 
 export default function SubjectPage() {
@@ -65,7 +64,7 @@ export default function SubjectPage() {
                 </div>
               </div>
             ) : (
-              <a href={getLoginUrl()}>
+              <a href={"/login"}>
                 <Button>
                   <LogIn className="ml-2 w-5 h-5" />
                   تسجيل الدخول

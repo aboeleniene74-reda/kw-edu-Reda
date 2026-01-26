@@ -26,11 +26,15 @@ import AdminDashboardNew from "./pages/AdminDashboardNew";
 import AdminContentManagement from "./pages/AdminContentManagement";
 import AdminNotificationsManagement from "./pages/AdminNotificationsManagement";
 import Sitemap from "./pages/Sitemap";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/login"} component={LoginPage} />
+      <Route path={"/register"} component={RegisterPage} />
       <Route path={"/about"} component={AboutPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/terms"} component={TermsOfService} />
