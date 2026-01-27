@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react";
 import { Link } from "wouter";
 import { SiteRatingForm } from "@/components/SiteRatingForm";
+import { SiteRatingsList } from "@/components/SiteRatingsList";
 import { SearchBox } from "@/components/SearchBox";
 import NotificationsDropdown from "@/components/NotificationsDropdown";
 import { useEffect } from "react";
@@ -190,11 +191,18 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 bg-gradient-to-br from-primary/5 to-accent/5">
+      {/* Ratings Section */}
+      <section className="py-16 bg-muted/30">
         <div className="container">
-          <div className="text-center mb-12">
+          <div className="max-w-4xl mx-auto">
+            <SiteRatingsList />
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 via-white to-amber-50">
+        <div className="container">         <div className="text-center mb-12">
             <h3 className="text-3xl font-bold mb-4">ماذا يقول طلابنا</h3>
             <p className="text-muted-foreground text-lg">
               شهادات حقيقية من طلاب استفادوا من مذكراتنا التعليمية

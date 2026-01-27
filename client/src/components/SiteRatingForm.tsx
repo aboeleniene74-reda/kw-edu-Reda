@@ -13,15 +13,15 @@ export function SiteRatingForm() {
   const [userName, setUserName] = useState("");
 
 
-  const { data: averageRating } = trpc.siteRatings.average.useQuery();
+  const { data: stats } = trpc.siteRatings.stats.useQuery();
   const addRatingMutation = trpc.siteRatings.create.useMutation({
     onSuccess: () => {
       toast.success("تم إرسال تقييمك بنجاح");
       setRating(0);
       setComment("");
       setUserName("");
-      // Invalidate query to refetch average
-      trpc.useUtils().siteRatings.average.invalidate();
+      // Invalidate query to refetch stats
+      trpc.useUtils().siteRatings.stats.invalidate();
     },
     onError: (error) => {
       toast.error(error.message || "حدث خطأ");
@@ -37,7 +37,7 @@ export function SiteRatingForm() {
     addRatingMutation.mutate({
       rating,
       comment: comment.trim() || undefined,
-      visitorName: userName.trim() || undefined,
+      userName: userName.trim() || undefined,
     });
   };
 
@@ -48,14 +48,14 @@ export function SiteRatingForm() {
         <CardDescription className="text-base">
           ساعدنا في تحسين خدماتنا من خلال تقييمك
         </CardDescription>
-        {averageRating && averageRating.count > 0 && (
+        {stats && stats.total > 0 && (
           <div className="flex items-center justify-center gap-2 mt-4">
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
                   className={`w-5 h-5 ${
-                    star <= Math.round(averageRating.average)
+                    star <= Math.round(stats.average)
                       ? "fill-yellow-400 text-yellow-400"
                       : "text-gray-300"
                   }`}
@@ -63,10 +63,10 @@ export function SiteRatingForm() {
               ))}
             </div>
             <span className="text-lg font-semibold">
-              {averageRating.average.toFixed(1)}
+              {stats.average.toFixed(1)}
             </span>
             <span className="text-sm text-muted-foreground">
-              ({averageRating.count} تقييم)
+              ({stats.total} تقييم)
             </span>
           </div>
         )}

@@ -741,23 +741,19 @@ export const appRouter = router({
       .input(z.object({
         rating: z.number().min(1).max(5),
         comment: z.string().optional(),
-        visitorName: z.string().optional(),
-        visitorEmail: z.string().email().optional(),
+        userName: z.string().optional(),
       }))
-      .mutation(async ({ input, ctx }) => {
-        await db.createSiteRating({
-          ...input,
-          userId: ctx.user?.id,
-        });
+      .mutation(async ({ input }) => {
+        await db.createSiteRating(input);
         return { success: true };
       }),
 
-    list: protectedProcedure.query(async () => {
+    list: publicProcedure.query(async () => {
       return await db.getAllSiteRatings();
     }),
 
-    average: publicProcedure.query(async () => {
-      return await db.getAverageSiteRating();
+    stats: publicProcedure.query(async () => {
+      return await db.getSiteRatingStats();
     }),
   }),
 

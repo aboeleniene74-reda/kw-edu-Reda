@@ -577,17 +577,17 @@ export async function getAllSiteRatings() {
   return await db.select().from(siteRatings).orderBy(desc(siteRatings.createdAt));
 }
 
-export async function getAverageSiteRating() {
+export async function getSiteRatingStats() {
   const db = await getDb();
-  if (!db) return { average: 0, count: 0 };
+  if (!db) return { average: 0, total: 0 };
   
   const ratings = await db.select().from(siteRatings);
-  if (ratings.length === 0) return { average: 0, count: 0 };
+  if (ratings.length === 0) return { average: 0, total: 0 };
   
   const sum = ratings.reduce((acc, r) => acc + r.rating, 0);
   return {
     average: sum / ratings.length,
-    count: ratings.length
+    total: ratings.length
   };
 }
 
@@ -1315,3 +1315,4 @@ export async function createBlogPost(data: {
 
   return result[0].insertId;
 }
+
