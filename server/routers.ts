@@ -752,9 +752,72 @@ export const appRouter = router({
       return await db.getAllSiteRatings();
     }),
 
+    // فلترة التقييمات حسب عدد النجوم
+    listByStars: publicProcedure
+      .input(z.object({
+        stars: z.number().min(1).max(5).optional(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getSiteRatingsByStars(input.stars);
+      }),
+
     stats: publicProcedure.query(async () => {
       return await db.getSiteRatingStats();
     }),
+
+    // إحصائيات متقدمة مع توزيع التقييمات
+    advancedStats: publicProcedure.query(async () => {
+      return await db.getRatingsStatistics();
+    }),
+
+    // الإبلاغ عن تقييم
+    report: publicProcedure
+      .input(z.object({
+        ratingId: z.number(),
+        reporterName: z.string().optional(),
+        reporterEmail: z.string().email().optional(),
+        reason: z.string().min(10, "يجب أن يكون السبب 10 أحرف على الأقل"),
+      }))
+      .mutation(async ({ input }) => {
+        const reportId = await db.createRatingReport(input);
+        return { success: true, reportId };
+      }),
+
+    // حذف تقييم (للأدمن فقط)
+    delete: protectedProcedure
+      .input(z.object({
+        ratingId: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        await db.deleteSiteRating(input.ratingId);
+        return { success: true };
+      }),
+
+    // جلب جميع البلاغات (للأدمن)
+    getAllReports: protectedProcedure.query(async ({ ctx }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+      }
+      return await db.getAllRatingReports();
+    }),
+
+    // تحديث حالة البلاغ (للأدمن)
+    updateReportStatus: protectedProcedure
+      .input(z.object({
+        reportId: z.number(),
+        status: z.enum(['pending', 'reviewed', 'resolved', 'rejected']),
+        adminNotes: z.string().optional(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user?.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN', message: 'غير مصرح' });
+        }
+        await db.updateRatingReportStatus(input.reportId, input.status, input.adminNotes);
+        return { success: true };
+      }),
   }),
 
   // ============= Session Ratings Router =============

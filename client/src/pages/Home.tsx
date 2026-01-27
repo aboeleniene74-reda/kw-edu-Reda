@@ -6,6 +6,7 @@ import { BookOpen, GraduationCap, LogIn, User, Phone, Video } from "lucide-react
 import { Link } from "wouter";
 import { SiteRatingForm } from "@/components/SiteRatingForm";
 import { SiteRatingsList } from "@/components/SiteRatingsList";
+import { RatingsStatistics } from "@/components/RatingsStatistics";
 import { SearchBox } from "@/components/SearchBox";
 import NotificationsDropdown from "@/components/NotificationsDropdown";
 import { useEffect } from "react";
@@ -194,7 +195,8 @@ export default function Home() {
       {/* Ratings Section */}
       <section className="py-16 bg-muted/30">
         <div className="container">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <RatingsStatistics />
             <SiteRatingsList />
           </div>
         </div>

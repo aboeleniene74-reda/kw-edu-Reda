@@ -13,6 +13,7 @@ import {
   sessions,
   sessionBookings,
   siteRatings,
+  ratingReports,
   sessionRatings,
   liveComments,
   semesters,
@@ -1316,3 +1317,150 @@ export async function createBlogPost(data: {
   return result[0].insertId;
 }
 
+
+// ============================================
+// دوال نظام البلاغات عن التقييمات
+// ============================================
+
+/**
+ * إضافة بلاغ عن تقييم
+ */
+export async function createRatingReport(data: {
+  ratingId: number;
+  reporterName?: string;
+  reporterEmail?: string;
+  reason: string;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(ratingReports).values(data);
+  return result[0].insertId;
+}
+
+/**
+ * جلب جميع البلاغات (للأدمن)
+ */
+export async function getAllRatingReports() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const reports = await db
+    .select({
+      id: ratingReports.id,
+      ratingId: ratingReports.ratingId,
+      reporterName: ratingReports.reporterName,
+      reporterEmail: ratingReports.reporterEmail,
+      reason: ratingReports.reason,
+      status: ratingReports.status,
+      adminNotes: ratingReports.adminNotes,
+      createdAt: ratingReports.createdAt,
+      reviewedAt: ratingReports.reviewedAt,
+      // معلومات التقييم المبلغ عنه
+      rating: siteRatings.rating,
+      ratingComment: siteRatings.comment,
+      ratingVisitorName: siteRatings.visitorName,
+    })
+    .from(ratingReports)
+    .leftJoin(siteRatings, eq(ratingReports.ratingId, siteRatings.id))
+    .orderBy(desc(ratingReports.createdAt));
+
+  return reports;
+}
+
+/**
+ * تحديث حالة البلاغ
+ */
+export async function updateRatingReportStatus(
+  reportId: number,
+  status: "pending" | "reviewed" | "resolved" | "rejected",
+  adminNotes?: string
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(ratingReports)
+    .set({
+      status,
+      adminNotes,
+      reviewedAt: new Date(),
+    })
+    .where(eq(ratingReports.id, reportId));
+}
+
+/**
+ * حذف تقييم (للأدمن)
+ */
+export async function deleteSiteRating(ratingId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(siteRatings).where(eq(siteRatings.id, ratingId));
+}
+
+/**
+ * جلب التقييمات مع فلترة حسب عدد النجوم
+ */
+export async function getSiteRatingsByStars(stars?: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  let query = db
+    .select()
+    .from(siteRatings)
+    .orderBy(desc(siteRatings.createdAt));
+
+  if (stars) {
+    query = query.where(eq(siteRatings.rating, stars)) as any;
+  }
+
+  const ratings = await query;
+  return ratings;
+}
+
+/**
+ * جلب إحصائيات التقييمات المتقدمة
+ */
+export async function getRatingsStatistics() {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // جلب جميع التقييمات
+  const allRatings = await db.select().from(siteRatings);
+
+  // حساب التوزيع
+  const distribution = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  };
+
+  allRatings.forEach((rating) => {
+    if (rating.rating >= 1 && rating.rating <= 5) {
+      distribution[rating.rating as keyof typeof distribution]++;
+    }
+  });
+
+  const totalRatings = allRatings.length;
+  const sumRatings = allRatings.reduce((sum, r) => sum + r.rating, 0);
+  const averageRating = totalRatings > 0 ? sumRatings / totalRatings : 0;
+
+  // حساب النسب المئوية
+  const percentages = {
+    1: totalRatings > 0 ? (distribution[1] / totalRatings) * 100 : 0,
+    2: totalRatings > 0 ? (distribution[2] / totalRatings) * 100 : 0,
+    3: totalRatings > 0 ? (distribution[3] / totalRatings) * 100 : 0,
+    4: totalRatings > 0 ? (distribution[4] / totalRatings) * 100 : 0,
+    5: totalRatings > 0 ? (distribution[5] / totalRatings) * 100 : 0,
+  };
+
+  return {
+    totalRatings,
+    averageRating: Number(averageRating.toFixed(2)),
+    distribution,
+    percentages,
+  };
+}

@@ -250,6 +250,25 @@ export type SiteRating = typeof siteRatings.$inferSelect;
 export type InsertSiteRating = typeof siteRatings.$inferInsert;
 
 /**
+ * جدول البلاغات عن التقييمات
+ * للإبلاغ عن التقييمات غير اللائقة أو المسيئة
+ */
+export const ratingReports = mysqlTable("rating_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  ratingId: int("ratingId").notNull().references(() => siteRatings.id, { onDelete: "cascade" }),
+  reporterName: varchar("reporterName", { length: 255 }), // اسم المبلغ
+  reporterEmail: varchar("reporterEmail", { length: 320 }), // بريد المبلغ (اختياري)
+  reason: text("reason").notNull(), // سبب الإبلاغ
+  status: mysqlEnum("status", ["pending", "reviewed", "resolved", "rejected"]).default("pending").notNull(),
+  adminNotes: text("adminNotes"), // ملاحظات الأدمن
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  reviewedAt: timestamp("reviewedAt"),
+});
+
+export type RatingReport = typeof ratingReports.$inferSelect;
+export type InsertRatingReport = typeof ratingReports.$inferInsert;
+
+/**
  * جدول تقييمات الحصص
  */
 export const sessionRatings = mysqlTable("session_ratings", {

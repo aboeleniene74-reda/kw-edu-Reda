@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS `rating_reports` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `ratingId` INT NOT NULL,\n  `reporterName` VARCHAR(255),\n  `reporterEmail` VARCHAR(320),\n  `reason` TEXT NOT NULL,\n  `status` ENUM('pending', 'reviewed', 'resolved', 'rejected') DEFAULT 'pending' NOT NULL,\n  `adminNotes` TEXT,\n  `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `reviewedAt` TIMESTAMP NULL,\n  FOREIGN KEY (`ratingId`) REFERENCES `site_ratings`(`id`) ON DELETE CASCADE\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute CREATE TABLE IF NOT EXISTS `rating_reports` (\n  `id` INT AUTO_INCREMENT PRIMARY KEY,\n  `ratingId` INT NOT NULL,\n  `reporterName` VARCHAR(255),\n  `reporterEmail` VARCHAR(320),\n  `reason` TEXT NOT NULL,\n  `status` ENUM('pending', 'reviewed', 'resolved', 'rejected') DEFAULT 'pending' NOT NULL,\n  `adminNotes` TEXT,\n  `createdAt` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,\n  `reviewedAt` TIMESTAMP NULL,\n  FOREIGN KEY (`ratingId`) REFERENCES `site_ratings`(`id`) ON DELETE CASCADE\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1752
+}
