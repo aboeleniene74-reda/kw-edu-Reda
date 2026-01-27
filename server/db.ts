@@ -20,6 +20,7 @@ import {
   announcements,
   siteSettings,
   notifications,
+  blogPosts,
   InsertGrade,
   InsertSubject,
   InsertNotebook,
@@ -1235,4 +1236,82 @@ export async function getUserById(id: number) {
     .limit(1);
   
   return results[0] || null;
+}
+
+
+// ============= Blog Functions =============
+
+export async function getPublishedBlogPosts(params: {
+  category?: string;
+  limit: number;
+  offset: number;
+}) {
+  const db = await getDb();
+  if (!db) return [];
+
+  if (params.category) {
+    return await db
+      .select()
+      .from(blogPosts)
+      .where(and(
+        eq(blogPosts.isPublished, true),
+        eq(blogPosts.category, params.category)
+      ))
+      .orderBy(desc(blogPosts.publishedAt))
+      .limit(params.limit)
+      .offset(params.offset);
+  }
+
+  return await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.isPublished, true))
+    .orderBy(desc(blogPosts.publishedAt))
+    .limit(params.limit)
+    .offset(params.offset);
+}
+
+export async function getBlogPostBySlug(slug: string) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const results = await db
+    .select()
+    .from(blogPosts)
+    .where(eq(blogPosts.slug, slug))
+    .limit(1);
+
+  return results[0] || null;
+}
+
+export async function incrementBlogPostViews(id: number) {
+  const db = await getDb();
+  if (!db) return;
+
+  await db
+    .update(blogPosts)
+    .set({ views: sql`${blogPosts.views} + 1` })
+    .where(eq(blogPosts.id, id));
+}
+
+export async function createBlogPost(data: {
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string;
+  authorId: number;
+  category: string;
+  tags?: string;
+  isPublished: boolean;
+}) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(blogPosts).values({
+    ...data,
+    publishedAt: data.isPublished ? new Date() : null,
+  });
+
+  return result[0].insertId;
 }

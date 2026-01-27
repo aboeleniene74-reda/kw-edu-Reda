@@ -28,6 +28,7 @@ import AdminNotificationsManagement from "./pages/AdminNotificationsManagement";
 import Sitemap from "./pages/Sitemap";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import FAQPage from "./pages/FAQPage";
 
 function Router() {
   return (
@@ -36,6 +37,7 @@ function Router() {
       <Route path={"/login"} component={LoginPage} />
       <Route path={"/register"} component={RegisterPage} />
       <Route path={"/about"} component={AboutPage} />
+      <Route path={"/faq"} component={FAQPage} />
       <Route path={"/privacy"} component={PrivacyPolicy} />
       <Route path={"/terms"} component={TermsOfService} />
       <Route path={"/sitemap.xml"} component={Sitemap} />

@@ -920,6 +920,56 @@ export const appRouter = router({
       }),
   }),
   
+  // ============= Blog Router =============
+  blog: router({
+    // قائمة المقالات المنشورة
+    list: publicProcedure
+      .input(z.object({
+        category: z.string().optional(),
+        limit: z.number().default(10),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        return await db.getPublishedBlogPosts(input);
+      }),
+
+    // مقال واحد
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        const post = await db.getBlogPostBySlug(input.slug);
+        if (!post) {
+          throw new TRPCError({ code: 'NOT_FOUND' });
+        }
+        // زيادة عدد المشاهدات
+        await db.incrementBlogPostViews(post.id);
+        return post;
+      }),
+
+    // إنشاء مقال (أدمن فقط)
+    create: protectedProcedure
+      .input(z.object({
+        title: z.string(),
+        slug: z.string(),
+        excerpt: z.string(),
+        content: z.string(),
+        coverImage: z.string().optional(),
+        category: z.string(),
+        tags: z.string().optional(),
+        isPublished: z.boolean().default(false),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        if (ctx.user.role !== 'admin') {
+          throw new TRPCError({ code: 'FORBIDDEN' });
+        }
+        const postId = await db.createBlogPost({
+          ...input,
+          authorId: ctx.user.id,
+        });
+        return { id: postId };
+      }),
+  }),
+
   // Sitemap endpoint
   sitemap: router({
     getUrls: publicProcedure.query(async () => {

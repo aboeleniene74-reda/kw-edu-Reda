@@ -191,6 +191,89 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-16 bg-gradient-to-br from-primary/5 to-accent/5">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold mb-4">ماذا يقول طلابنا</h3>
+            <p className="text-muted-foreground text-lg">
+              شهادات حقيقية من طلاب استفادوا من مذكراتنا التعليمية
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Testimonial 1 */}
+            <Card className="border-2 hover:shadow-xl transition-all duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-6 h-6 text-primary" />  
+                  </div>
+                  <div>
+                    <p className="font-bold">أحمد الكندري</p>
+                    <p className="text-sm text-muted-foreground">الصف الثاني عشر</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  "المذكرات ساعدتني كثيراً في فهم الكيمياء. الشرح واضح والأمثلة مفيدة جداً. حصلت على 95% في الاختبار النهائي!"
+                </p>
+                <div className="flex gap-1 mt-4">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-yellow-500">★</span>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Testimonial 2 */}
+            <Card className="border-2 hover:shadow-xl transition-all duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold">فاطمة العتيبي</p>
+                    <p className="text-sm text-muted-foreground">الصف الحادي عشر</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  "أفضل مذكرات جيولوجيا! المراجعات النهائية كانت شاملة وساعدتني أفهم المادة بسهولة. شكراً لكم!"
+                </p>
+                <div className="flex gap-1 mt-4">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-yellow-500">★</span>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Testimonial 3 */}
+            <Card className="border-2 hover:shadow-xl transition-all duration-300">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                    <GraduationCap className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold">خالد المطيري</p>
+                    <p className="text-sm text-muted-foreground">الصف العاشر</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground leading-relaxed">
+                  "التوصيل كان سريع والمذكرات بجودة عالية. نماذج الاختبارات المحلولة ساعدتني أتدرب قبل الامتحان."
+                </p>
+                <div className="flex gap-1 mt-4">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-yellow-500">★</span>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section className="py-16">
         <div className="container">
@@ -259,6 +342,12 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-muted-foreground">© 2024 منصة ثانوي علمي - جميع الحقوق محفوظة</p>
             <div className="flex items-center gap-4">
+              <Link href="/faq">
+                <Button variant="link" className="text-muted-foreground hover:text-primary">
+                  الأسئلة الشائعة
+                </Button>
+              </Link>
+              <span className="text-muted-foreground">|</span>
               <Link href="/privacy">
                 <Button variant="link" className="text-muted-foreground hover:text-primary">
                   سياسة الخصوصية

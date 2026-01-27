@@ -338,3 +338,28 @@ export const notifications = mysqlTable("notifications", {
 
 export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = typeof notifications.$inferInsert;
+
+
+/**
+ * جدول المدونة التعليمية
+ * مقالات ونصائح تعليمية للطلاب
+ */
+export const blogPosts = mysqlTable("blog_posts", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(), // للرابط الصديق لمحركات البحث
+  excerpt: text("excerpt").notNull(), // ملخص قصير
+  content: text("content").notNull(), // المحتوى الكامل (Markdown)
+  coverImage: varchar("cover_image", { length: 500 }), // صورة الغلاف
+  authorId: int("author_id").notNull().references(() => users.id),
+  category: varchar("category", { length: 100 }).notNull(), // نصائح دراسية، شروحات، أخبار، إلخ
+  tags: text("tags"), // JSON array of tags
+  views: int("views").default(0).notNull(),
+  isPublished: boolean("is_published").default(false).notNull(),
+  publishedAt: timestamp("published_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type InsertBlogPost = typeof blogPosts.$inferInsert;
