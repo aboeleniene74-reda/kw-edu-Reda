@@ -256,8 +256,8 @@ export default function CategoryContentPage() {
                         </Button>
                         
                         {/* زر توضيحي لقسم ملخصات الشرح فقط */}
-                        {currentCategory?.nameEn === "Summary" && (
-                          <Badge variant="secondary" className="text-xs">
+                        {currentCategory?.name === "ملخصات الشرح" && (
+                          <Badge variant="secondary" className="text-xs px-3 py-1">
                             مذكرة مجانية - عليك التوصيل
                           </Badge>
                         )}
