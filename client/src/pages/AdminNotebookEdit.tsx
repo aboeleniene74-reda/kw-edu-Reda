@@ -40,6 +40,8 @@ export default function AdminNotebookEdit() {
     price: "",
     pages: "",
     isFeatured: false,
+    viewCount: "",
+    downloadCount: "",
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [previewFile, setPreviewFile] = useState<File | null>(null);
@@ -80,6 +82,8 @@ export default function AdminNotebookEdit() {
         price: notebook.price,
         pages: notebook.pages?.toString() || "",
         isFeatured: notebook.isFeatured || false,
+        viewCount: notebook.viewCount?.toString() || "0",
+        downloadCount: notebook.downloadCount?.toString() || "0",
       });
       setSelectedGrade(notebook.gradeId);
     }
@@ -161,6 +165,8 @@ export default function AdminNotebookEdit() {
         ...(previewUrl && { previewUrl }),
         ...(coverImageUrl && { coverImageUrl }),
         isFeatured: formData.isFeatured,
+        viewCount: formData.viewCount ? parseInt(formData.viewCount) : undefined,
+        downloadCount: formData.downloadCount ? parseInt(formData.downloadCount) : undefined,
       });
     } catch (error) {
       toast.error("فشل رفع الملفات");
@@ -457,6 +463,30 @@ export default function AdminNotebookEdit() {
                         placeholder="50"
                         value={formData.pages}
                         onChange={(e) => setFormData({ ...formData, pages: e.target.value })}
+                      />
+                    </div>
+
+                    {/* View Count */}
+                    <div className="space-y-2">
+                      <Label htmlFor="viewCount">عدد المشاهدات</Label>
+                      <Input
+                        id="viewCount"
+                        type="number"
+                        placeholder="0"
+                        value={formData.viewCount}
+                        onChange={(e) => setFormData({ ...formData, viewCount: e.target.value })}
+                      />
+                    </div>
+
+                    {/* Download Count */}
+                    <div className="space-y-2">
+                      <Label htmlFor="downloadCount">عدد التحميلات</Label>
+                      <Input
+                        id="downloadCount"
+                        type="number"
+                        placeholder="0"
+                        value={formData.downloadCount}
+                        onChange={(e) => setFormData({ ...formData, downloadCount: e.target.value })}
                       />
                     </div>
                   </div>

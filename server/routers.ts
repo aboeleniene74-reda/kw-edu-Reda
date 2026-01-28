@@ -436,6 +436,8 @@ export const appRouter = router({
         coverImageUrl: z.string().optional(),
         isPublished: z.boolean().optional(),
         isFeatured: z.boolean().optional(),
+        viewCount: z.number().optional(),
+        downloadCount: z.number().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         if (ctx.user?.role !== 'admin' && ctx.user?.role !== 'teacher') {
