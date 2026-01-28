@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE notebooks \nADD COLUMN downloadCount INT DEFAULT 0 NOT NULL,\nADD COLUMN viewCount INT DEFAULT 0 NOT NULL,\nADD COLUMN contactPhone VARCHAR(20),\nADD COLUMN isFreeDownload BOOLEAN DEFAULT FALSE NOT NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute ALTER TABLE notebooks \nADD COLUMN downloadCount INT DEFAULT 0 NOT NULL,\nADD COLUMN viewCount INT DEFAULT 0 NOT NULL,\nADD COLUMN contactPhone VARCHAR(20),\nADD COLUMN isFreeDownload BOOLEAN DEFAULT FALSE NOT NULL;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2745
+}

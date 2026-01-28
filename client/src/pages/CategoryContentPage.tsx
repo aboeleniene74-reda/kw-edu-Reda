@@ -1,14 +1,13 @@
 import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
-import { ArrowRight, BookOpen, GraduationCap, LogIn, User, Star, ShoppingCart, Eye, MessageCircle, Phone } from "lucide-react";
+import { ArrowRight, GraduationCap, Star, Eye, Phone, MessageCircle, Download, TrendingUp, LogIn, User } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
 import { PDFViewer } from "@/components/PDFViewer";
-import { TextbookPDFViewer } from "@/components/TextbookPDFViewer";
-import { NotebookRating } from "@/components/NotebookRating";
 import { useState } from "react";
 
 export default function CategoryContentPage() {
@@ -35,8 +34,11 @@ export default function CategoryContentPage() {
   const currentSemester = semester?.find(s => s.id === semesterId);
   const currentCategory = category?.find(c => c.id === categoryId);
 
+  // تحديد إذا كان القسم مجاني (الكتاب المدرسي أو بنك الأسئلة)
+  const isFreeCategory = currentCategory?.nameEn === "Textbook" || 
+                         currentCategory?.nameEn === "Question Bank";
+
   const handlePreview = (notebook: any) => {
-    // استخدام previewUrl إذا كان متوفراً، وإلا fileUrl
     if (notebook.previewUrl || notebook.fileUrl) {
       setPreviewNotebook(notebook);
       
@@ -50,15 +52,11 @@ export default function CategoryContentPage() {
     }
   };
 
-
-
-  const handleCall = (notebook: any) => {
-    // فتح تطبيق الهاتف للاتصال برقم المالك
+  const handleCall = () => {
     window.location.href = 'tel:99457080';
   };
 
   const handleWhatsApp = (notebook: any) => {
-    // فتح واتساب مع رسالة جاهزة
     const message = `مرحبا، أريد شراء مذكرة: ${notebook.title}`;
     const whatsappUrl = `https://wa.me/96599457080?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -99,17 +97,17 @@ export default function CategoryContentPage() {
 
           <div className="flex items-center gap-3">
             {loading ? (
-              <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
             ) : user ? (
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <User className="w-5 h-5 text-muted-foreground" />
-                  <span className="text-sm font-medium">{user.name}</span>
-                </div>
-              </div>
+              <Link href="/dashboard">
+                <Button variant="ghost" size="sm">
+                  <User className="ml-2 w-5 h-5" />
+                  {user.name || "حسابي"}
+                </Button>
+              </Link>
             ) : (
-              <a href={"/login"}>
-                <Button>
+              <a href={getLoginUrl()}>
+                <Button size="sm">
                   <LogIn className="ml-2 w-5 h-5" />
                   تسجيل الدخول
                 </Button>
@@ -119,25 +117,17 @@ export default function CategoryContentPage() {
         </div>
       </header>
 
-      {/* Content */}
-      <section className="container py-16">
+      {/* Main Content */}
+      <main className="container py-12">
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-          <Link href="/">
-            <span className="hover:text-foreground cursor-pointer">الرئيسية</span>
-          </Link>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+          <Link href="/" className="hover:text-foreground">الرئيسية</Link>
           <span>/</span>
-          <Link href={`/grade/${gradeId}`}>
-            <span className="hover:text-foreground cursor-pointer">{grade.name}</span>
-          </Link>
+          <Link href={`/grade/${gradeId}`} className="hover:text-foreground">{grade.name}</Link>
           <span>/</span>
-          <Link href={`/grade/${gradeId}/semester/${semesterId}`}>
-            <span className="hover:text-foreground cursor-pointer">{currentSemester.name}</span>
-          </Link>
+          <Link href={`/grade/${gradeId}/semester/${semesterId}`} className="hover:text-foreground">{currentSemester.name}</Link>
           <span>/</span>
-          <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
-            <span className="hover:text-foreground cursor-pointer">{subject.name}</span>
-          </Link>
+          <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`} className="hover:text-foreground">{subject.name}</Link>
           <span>/</span>
           <span className="text-foreground font-medium">{currentCategory.name}</span>
         </div>
@@ -155,98 +145,144 @@ export default function CategoryContentPage() {
           )}
         </div>
 
-        {/* Notebooks Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {notebooks && notebooks.length > 0 ? (
-            notebooks.map((notebook) => (
-              <Card key={notebook.id} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-start justify-between mb-2">
-                    <CardTitle className="text-lg">{notebook.title}</CardTitle>
-                    {notebook.isFeatured && (
-                      <Badge variant="default" className="mr-2">
-                        <Star className="w-3 h-3 ml-1" />
-                        مميزة
-                      </Badge>
-                    )}
-                  </div>
-                  {notebook.description && (
-                    <CardDescription className="line-clamp-2">
-                      {notebook.description}
-                    </CardDescription>
-                  )}
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      {notebook.pages ? `${notebook.pages} صفحة` : 'غير محدد'}
-                    </span>
-                    <span className="text-2xl font-bold text-primary">
-                      {parseFloat(notebook.price) === 0 ? 'مجاني' : `${notebook.price} د.ك`}
-                    </span>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex flex-col gap-2">
-                  {/* زر المعاينة */}
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => handlePreview(notebook)}
-                    disabled={!notebook.previewUrl && !notebook.fileUrl}
+        {/* Notebooks List */}
+        {notebooks && notebooks.length > 0 ? (
+          <Card className="overflow-hidden">
+            <CardContent className="p-0">
+              <div className="divide-y">
+                {notebooks.map((notebook) => (
+                  <div
+                    key={notebook.id}
+                    className="p-6 hover:bg-muted/30 transition-colors"
                   >
-                    <Eye className="ml-2 w-5 h-5" />
-                    معاينة المذكرة
-                  </Button>
-                  
-                  {/* أزرار التواصل */}
-                  <div className="flex gap-2 w-full">
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => handleCall(notebook)}
-                    >
-                      <Phone className="ml-2 w-5 h-5" />
-                      اتصال
-                    </Button>
-                    <Button
-                      className="flex-1 bg-green-600 hover:bg-green-700"
-                      onClick={() => handleWhatsApp(notebook)}
-                    >
-                      <MessageCircle className="ml-2 w-5 h-5" />
-                      واتساب
-                    </Button>
+                    {/* اسم المذكرة مع Badge */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-xl font-bold mb-1">{notebook.title}</h3>
+                        {notebook.description && (
+                          <p className="text-sm text-muted-foreground">{notebook.description}</p>
+                        )}
+                      </div>
+                      {notebook.isFeatured && (
+                        <Badge variant="default" className="mr-3">
+                          <Star className="w-3 h-3 ml-1" />
+                          مميزة
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* معلومات المذكرة في سطر واحد */}
+                    <div className="flex flex-wrap items-center gap-6 text-base mb-4">
+                      {/* عدد الصفحات */}
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">عدد الصفحات:</span>
+                        <span className="text-muted-foreground">
+                          {notebook.pages || 'غير محدد'}
+                        </span>
+                      </div>
+
+                      {/* نوع التحميل */}
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">التحميل:</span>
+                        <Badge variant={notebook.isFreeDownload ? "default" : "secondary"}>
+                          {notebook.isFreeDownload ? "مجاني" : "معاينة فقط"}
+                        </Badge>
+                      </div>
+
+                      {/* التقييم */}
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold">التقييم:</span>
+                        <div className="flex items-center gap-1">
+                          <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          <span className="text-muted-foreground">
+                            {notebook.rating ? Number(notebook.rating).toFixed(1) : 'لا يوجد'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* عدد التحميلات */}
+                      <div className="flex items-center gap-2">
+                        <Download className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-semibold">التحميلات:</span>
+                        <span className="text-muted-foreground">{notebook.downloadCount || 0}</span>
+                      </div>
+
+                      {/* عدد المشاهدات */}
+                      <div className="flex items-center gap-2">
+                        <Eye className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-semibold">المشاهدات:</span>
+                        <span className="text-muted-foreground">{notebook.viewCount || 0}</span>
+                      </div>
+
+                      {/* رقم التواصل (للأقسام المدفوعة فقط) */}
+                      {!isFreeCategory && (
+                        <div className="flex items-center gap-2">
+                          <Phone className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-semibold">للحصول على المذكرة:</span>
+                          <span className="text-primary font-bold">
+                            {notebook.contactPhone || "99457080"}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* أزرار الإجراءات */}
+                    <div className="flex gap-3">
+                      {/* زر المعاينة */}
+                      <Button
+                        variant="outline"
+                        onClick={() => handlePreview(notebook)}
+                        disabled={!notebook.previewUrl && !notebook.fileUrl}
+                      >
+                        <Eye className="ml-2 w-4 h-4" />
+                        معاينة
+                      </Button>
+
+                      {/* أزرار التواصل (للأقسام المدفوعة فقط) */}
+                      {!isFreeCategory && (
+                        <>
+                          <Button
+                            variant="outline"
+                            onClick={handleCall}
+                          >
+                            <Phone className="ml-2 w-4 h-4" />
+                            اتصال
+                          </Button>
+                          <Button
+                            className="bg-green-600 hover:bg-green-700"
+                            onClick={() => handleWhatsApp(notebook)}
+                          >
+                            <MessageCircle className="ml-2 w-4 h-4" />
+                            واتساب
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </CardFooter>
-              </Card>
-            ))
-          ) : (
-            <Card className="md:col-span-2 lg:col-span-3">
-              <CardContent className="py-12 text-center">
-                <BookOpen className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                <h3 className="text-xl font-semibold mb-2">لا يوجد محتوى متاح حالياً</h3>
-                <p className="text-muted-foreground mb-6">
-                  سيتم إضافة المذكرات والمحتوى التعليمي قريباً
-                </p>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <TrendingUp className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">لا يوجد محتوى متاح حالياً</h3>
+              <p className="text-muted-foreground mb-6">
+                سيتم إضافة المذكرات والمحتوى التعليمي قريباً
+              </p>
               <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
                 <Button variant="outline">
                   <ArrowRight className="ml-2 w-5 h-5" />
                   العودة للمادة
                 </Button>
               </Link>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-
-        {/* Ratings Section */}
-        {notebooks && notebooks.length > 0 && notebooks[0] && (
-          <div className="max-w-3xl mx-auto mb-12">
-            <NotebookRating notebookId={notebooks[0].id} />
-          </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Back Button */}
-        <div className="text-center">
+        <div className="text-center mt-12">
           <Link href={`/grade/${gradeId}/semester/${semesterId}/subject/${subjectId}`}>
             <Button variant="outline" size="lg">
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -254,23 +290,15 @@ export default function CategoryContentPage() {
             </Button>
           </Link>
         </div>
-      </section>
+      </main>
 
-      {/* PDF Viewer Modal */}
+      {/* PDF Preview Modal */}
       {previewNotebook && (
-        categoryId === 1 ? (
-          <TextbookPDFViewer
-            fileUrl={previewNotebook.fileUrl}
-            title={previewNotebook.title}
-            onClose={() => setPreviewNotebook(null)}
-          />
-        ) : (
-          <PDFViewer
-            fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
-            title={previewNotebook.title}
-            onClose={() => setPreviewNotebook(null)}
-          />
-        )
+        <PDFViewer
+          fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
+          title={previewNotebook.title}
+          onClose={() => setPreviewNotebook(null)}
+        />
       )}
     </div>
   );

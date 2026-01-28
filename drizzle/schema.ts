@@ -110,6 +110,10 @@ export const notebooks = mysqlTable("notebooks", {
   isFeatured: boolean("isFeatured").default(false).notNull(), // مذكرة مميزة
   salesCount: int("salesCount").default(0).notNull(), // عدد المبيعات
   rating: decimal("rating", { precision: 3, scale: 2 }), // التقييم من 5
+  downloadCount: int("downloadCount").default(0).notNull(), // عدد مرات التحميل
+  viewCount: int("viewCount").default(0).notNull(), // عدد مرات المشاهدة
+  contactPhone: varchar("contactPhone", { length: 20 }), // رقم التواصل
+  isFreeDownload: boolean("isFreeDownload").default(false).notNull(), // تحميل مجاني
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
