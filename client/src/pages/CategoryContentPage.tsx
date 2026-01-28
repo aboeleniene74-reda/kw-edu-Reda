@@ -7,12 +7,10 @@ import { trpc } from "@/lib/trpc";
 import { ArrowRight, GraduationCap, Star, Eye, Phone, MessageCircle, Download, TrendingUp, LogIn, User } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
-import { PDFViewer } from "@/components/PDFViewer";
 import { useState } from "react";
 
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
-  const [previewNotebook, setPreviewNotebook] = useState<any>(null);
   const trackView = trpc.statistics.trackView.useMutation();
   const params = useParams();
   const gradeId = parseInt(params.gradeId || "0");
@@ -39,8 +37,10 @@ export default function CategoryContentPage() {
                          currentCategory?.nameEn === "Question Bank";
 
   const handlePreview = (notebook: any) => {
-    if (notebook.previewUrl || notebook.fileUrl) {
-      setPreviewNotebook(notebook);
+    const pdfUrl = notebook.previewUrl || notebook.fileUrl;
+    if (pdfUrl) {
+      // فتح PDF في تبويب جديد
+      window.open(pdfUrl, '_blank');
       
       // تتبع مشاهدة المذكرة
       trackView.mutate({
@@ -60,6 +60,17 @@ export default function CategoryContentPage() {
     const message = `مرحبا، أريد شراء مذكرة: ${notebook.title}`;
     const whatsappUrl = `https://wa.me/96599457080?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleDownload = (notebook: any) => {
+    const downloadUrl = notebook.fileUrl || notebook.previewUrl;
+    if (downloadUrl) {
+      // فتح رابط التحميل في تبويب جديد
+      window.open(downloadUrl, '_blank');
+      toast.success("تم فتح رابط التحميل في تبويب جديد");
+    } else {
+      toast.error("رابط التحميل غير متوفر");
+    }
   };
 
   if (!grade || !subject || !currentSemester || !currentCategory) {
@@ -224,19 +235,34 @@ export default function CategoryContentPage() {
                           </span>
                         </div>
                       )}
+
+                      {/* زر المعاينة (في نفس السطر) */}
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handlePreview(notebook)}
+                          disabled={!notebook.previewUrl && !notebook.fileUrl}
+                        >
+                          <Eye className="ml-2 w-4 h-4" />
+                          معاينة
+                        </Button>
+                      </div>
                     </div>
 
                     {/* أزرار الإجراءات */}
                     <div className="flex gap-3">
-                      {/* زر المعاينة */}
-                      <Button
-                        variant="outline"
-                        onClick={() => handlePreview(notebook)}
-                        disabled={!notebook.previewUrl && !notebook.fileUrl}
-                      >
-                        <Eye className="ml-2 w-4 h-4" />
-                        معاينة
-                      </Button>
+                      {/* زر التحميل المجاني (للكتاب المدرسي فقط) */}
+                      {currentCategory?.nameEn === "Textbook" && (
+                        <Button
+                          className="bg-blue-600 hover:bg-blue-700"
+                          onClick={() => handleDownload(notebook)}
+                          disabled={!notebook.fileUrl && !notebook.previewUrl}
+                        >
+                          <Download className="ml-2 w-4 h-4" />
+                          تحميل مجاني
+                        </Button>
+                      )}
 
                       {/* أزرار التواصل (للأقسام المدفوعة فقط) */}
                       {!isFreeCategory && (
@@ -292,14 +318,6 @@ export default function CategoryContentPage() {
         </div>
       </main>
 
-      {/* PDF Preview Modal */}
-      {previewNotebook && (
-        <PDFViewer
-          fileUrl={previewNotebook.previewUrl || previewNotebook.fileUrl}
-          title={previewNotebook.title}
-          onClose={() => setPreviewNotebook(null)}
-        />
-      )}
     </div>
   );
 }
