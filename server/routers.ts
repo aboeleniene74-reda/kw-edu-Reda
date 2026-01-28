@@ -293,6 +293,31 @@ export const appRouter = router({
       return await db.getAllNotebooks();
     }),
       
+    getUploadUrl: teacherProcedure
+      .input(z.object({
+        fileName: z.string(),
+        contentType: z.string(),
+      }))
+      .mutation(async ({ input }) => {
+        const randomSuffix = Math.random().toString(36).substring(7);
+        const fileKey = `notebooks/${Date.now()}-${randomSuffix}-${input.fileName}`;
+        const { ENV } = await import('./_core/env');
+        const baseUrl = ENV.forgeApiUrl.replace(/\/+$/, "");
+        const apiKey = ENV.forgeApiKey;
+        
+        // إنشاء presigned upload URL
+        const uploadUrl = new URL("v1/storage/upload", baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`);
+        uploadUrl.searchParams.set("path", fileKey);
+        
+        return { 
+          uploadUrl: uploadUrl.toString(), 
+          fileKey,
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          }
+        };
+      }),
+
     uploadFile: teacherProcedure
       .input(z.object({
         file: z.string(), // base64 encoded file

@@ -43,7 +43,7 @@ export default function AdminNotebookNew() {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
 
-  const uploadFileMutation = trpc.notebooks.uploadFile.useMutation();
+  const getUploadUrlMutation = trpc.notebooks.getUploadUrl.useMutation();
 
   const logoutMutation = trpc.auth.logout.useMutation({
     onSuccess: () => {
@@ -78,22 +78,22 @@ export default function AdminNotebookNew() {
       return;
     }
 
-    // فحص حجم الملفات
-    const maxPdfSize = 50 * 1024 * 1024; // 50MB
-    const maxImageSize = 5 * 1024 * 1024; // 5MB
+    // فحص حجم الملفات (حد أعلى 500MB)
+    const maxPdfSize = 500 * 1024 * 1024; // 500MB
+    const maxImageSize = 10 * 1024 * 1024; // 10MB
     
     if (pdfFile && pdfFile.size > maxPdfSize) {
-      toast.error("حجم ملف PDF يتجاوز الحد المسموح (50MB)");
+      toast.error("حجم ملف PDF يتجاوز الحد المسموح (500MB)");
       return;
     }
     
     if (previewFile && previewFile.size > maxPdfSize) {
-      toast.error("حجم ملف المعاينة يتجاوز الحد المسموح (50MB)");
+      toast.error("حجم ملف المعاينة يتجاوز الحد المسموح (500MB)");
       return;
     }
     
     if (coverImage && coverImage.size > maxImageSize) {
-      toast.error("حجم صورة الغلاف يتجاوز الحد المسموح (5MB)");
+      toast.error("حجم صورة الغلاف يتجاوز الحد المسموح (10MB)");
       return;
     }
 
@@ -103,42 +103,81 @@ export default function AdminNotebookNew() {
     let coverImageUrl: string | undefined;
 
     try {
-      // رفع ملف PDF الكامل
+      // رفع ملف PDF الكامل مباشرة إلى S3
       if (pdfFile) {
         toast.info("جاري رفع ملف PDF...");
-        const pdfBase64 = await fileToBase64(pdfFile);
-        const pdfResult = await uploadFileMutation.mutateAsync({
-          file: pdfBase64,
+        const uploadData = await getUploadUrlMutation.mutateAsync({
           fileName: pdfFile.name,
           contentType: pdfFile.type,
         });
-        fileUrl = pdfResult.url;
+        
+        const formData = new FormData();
+        formData.append('file', pdfFile);
+        
+        const uploadResponse = await fetch(uploadData.uploadUrl, {
+          method: 'POST',
+          headers: uploadData.headers,
+          body: formData,
+        });
+        
+        if (!uploadResponse.ok) {
+          throw new Error(`فشل رفع PDF: ${uploadResponse.statusText}`);
+        }
+        
+        const result = await uploadResponse.json();
+        fileUrl = result.url;
         toast.success("تم رفع ملف PDF بنجاح");
       }
 
-      // رفع نسخة المعاينة (أول صفحتين)
+      // رفع نسخة المعاينة مباشرة
       if (previewFile) {
         toast.info("جاري رفع ملف المعاينة...");
-        const previewBase64 = await fileToBase64(previewFile);
-        const previewResult = await uploadFileMutation.mutateAsync({
-          file: previewBase64,
+        const uploadData = await getUploadUrlMutation.mutateAsync({
           fileName: previewFile.name,
           contentType: previewFile.type,
         });
-        previewUrl = previewResult.url;
+        
+        const formData = new FormData();
+        formData.append('file', previewFile);
+        
+        const uploadResponse = await fetch(uploadData.uploadUrl, {
+          method: 'POST',
+          headers: uploadData.headers,
+          body: formData,
+        });
+        
+        if (!uploadResponse.ok) {
+          throw new Error(`فشل رفع ملف المعاينة: ${uploadResponse.statusText}`);
+        }
+        
+        const result = await uploadResponse.json();
+        previewUrl = result.url;
         toast.success("تم رفع ملف المعاينة بنجاح");
       }
 
-      // رفع صورة الغلاف
+      // رفع صورة الغلاف مباشرة
       if (coverImage) {
         toast.info("جاري رفع صورة الغلاف...");
-        const coverBase64 = await fileToBase64(coverImage);
-        const coverResult = await uploadFileMutation.mutateAsync({
-          file: coverBase64,
+        const uploadData = await getUploadUrlMutation.mutateAsync({
           fileName: coverImage.name,
           contentType: coverImage.type,
         });
-        coverImageUrl = coverResult.url;
+        
+        const formData = new FormData();
+        formData.append('file', coverImage);
+        
+        const uploadResponse = await fetch(uploadData.uploadUrl, {
+          method: 'POST',
+          headers: uploadData.headers,
+          body: formData,
+        });
+        
+        if (!uploadResponse.ok) {
+          throw new Error(`فشل رفع صورة الغلاف: ${uploadResponse.statusText}`);
+        }
+        
+        const result = await uploadResponse.json();
+        coverImageUrl = result.url;
         toast.success("تم رفع صورة الغلاف بنجاح");
       }
 
@@ -466,7 +505,7 @@ export default function AdminNotebookNew() {
                           <p className="text-sm text-muted-foreground">
                             {coverImage ? coverImage.name : 'اضغط لرفع صورة الغلاف'}
                           </p>
-                          <p className="text-xs text-muted-foreground mt-1">JPG, PNG (أقصى 5MB)</p>
+                          <p className="text-xs text-muted-foreground mt-1">JPG, PNG (أقصى 10MB)</p>
                         </div>
                         <Input
                           id="coverImage"
@@ -487,7 +526,7 @@ export default function AdminNotebookNew() {
                           <p className="text-sm text-muted-foreground">
                             {pdfFile ? pdfFile.name : 'اضغط لرفع ملف PDF الكامل'}
                           </p>
-                          <p className="text-xs text-muted-foreground mt-1">PDF (أقصى 50MB)</p>
+                          <p className="text-xs text-muted-foreground mt-1">PDF (أقصى 500MB)</p>
                         </div>
                         <Input
                           id="pdfFile"
