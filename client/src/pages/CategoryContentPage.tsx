@@ -62,24 +62,29 @@ export default function CategoryContentPage() {
     window.open(whatsappUrl, '_blank');
   };
 
-  const handleDownload = (notebook: any) => {
-    const downloadUrl = notebook.fileUrl || notebook.previewUrl;
-    if (downloadUrl) {
-      // إنشاء عنصر <a> لتحميل الملف
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.download = notebook.title || 'notebook.pdf';
-      link.target = '_blank';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  const handleDownload = async (notebook: any) => {
+    try {
+      const downloadUrlData = await (trpc.notebooks as any).getDownloadUrl.query({ id: notebook.id });
+      const downloadUrl = downloadUrlData?.url || notebook.fileUrl || notebook.previewUrl;
       
-      // زيادة عداد التحميلات
-      incrementDownload.mutate({ notebookId: notebook.id });
-      
-      toast.success("جاري تحميل الملف...");
-    } else {
-      toast.error("رابط التحميل غير متوفر");
+      if (downloadUrl) {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = notebook.title || 'notebook.pdf';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        incrementDownload.mutate({ notebookId: notebook.id });
+        
+        toast.success("جاري تحميل الملف...");
+      } else {
+        toast.error("رابط التحميل غير متوفر");
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      toast.error("خطأ في تحميل الملف");
     }
   };
 
