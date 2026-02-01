@@ -1,0 +1,22 @@
+{
+  "query": "SELECT COUNT(*) as total_records FROM statistics; SELECT type, COUNT(*) as count FROM statistics GROUP BY type;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT COUNT(*) as total_records FROM statistics; SELECT type, COUNT(*) as count FROM statistics GROUP BY type;",
+  "rows": [
+    {
+      "total_records": "816"
+    },
+    {
+      "total_records": "type\tcount"
+    },
+    {
+      "total_records": "view\t84"
+    },
+    {
+      "total_records": "visit\t732"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_records\n816\ntype\tcount\nview\t84\nvisit\t732\n",
+  "stderr": "",
+  "execution_time_ms": 1836
+}
