@@ -1,0 +1,100 @@
+{
+  "query": "SELECT n.id, n.title, n.subjectId, n.semesterId, n.gradeId, n.categoryId, c.name as categoryName \nFROM notebooks n \nJOIN content_categories c ON n.categoryId = c.id \nWHERE c.name IN ('الكتاب المدرسي', 'مراجعات قصير 1', 'مراجعات قصير 2', 'مراجعات الفاينل')\nAND n.isPublished = 1\nLIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT n.id, n.title, n.subjectId, n.semesterId, n.gradeId, n.categoryId, c.name as categoryName \nFROM notebooks n \nJOIN content_categories c ON n.categoryId = c.id \nWHERE c.name IN ('الكتاب المدرسي', 'مراجعات قصير 1', 'مراجعات قصير 2', 'مراجعات الفاينل')\nAND n.isPublished = 1\nLIMIT 10;",
+  "rows": [
+    {
+      "id": "270001",
+      "title": "خطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026",
+      "subjectId": "5",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "270002",
+      "title": "خطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026",
+      "subjectId": "4",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "270003",
+      "title": "خطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 ",
+      "subjectId": "7",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "330002",
+      "title": "أحياء كتاب الطالب صف11 فصل2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "330003",
+      "title": "جيولوجيا كتاب الطالب الفصل الثاني",
+      "subjectId": "7",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "330004",
+      "title": "كيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني",
+      "subjectId": "4",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "390001",
+      "title": "أهم تعريفات جيولوجيا الفصل الثاني",
+      "subjectId": "7",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل"
+    },
+    {
+      "id": "420001",
+      "title": "بنك الأسئلة محلول - جيولوجيا الفصل 2",
+      "subjectId": "7",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "420002",
+      "title": "بنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني",
+      "subjectId": "4",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    },
+    {
+      "id": "420003",
+      "title": "بنك الأسئلة محلول أحياء الصف 11 الفصل 2",
+      "subjectId": "5",
+      "semesterId": "2",
+      "gradeId": "2",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tsubjectId\tsemesterId\tgradeId\tcategoryId\tcategoryName\n270001\tخطة توزيع منهج الأحياء صف11 فصل2 لسنة 2025/2026\t5\t2\t2\t1\tالكتاب المدرسي\n270002\tخطة توزيع منهج الكيمياء صف11 فصل2 لسنة 2025/2026\t4\t2\t2\t1\tالكتاب المدرسي\n270003\tخطة توزيع منهج الجيولوجيا الفصل2 لسنة 2025/2026 \t7\t2\t2\t1\tالكتاب المدرسي\n330002\tأحياء كتاب الطالب صف11 فصل2\t5\t2\t2\t1\tالكتاب المدرسي\n330003\tجيولوجيا كتاب الطالب الفصل الثاني\t7\t2\t2\t1\tالكتاب المدرسي\n330004\tكيمياء كتاب الطالب الصف الحادي عشر الفصل الثاني\t4\t2\t2\t1\tالكتاب المدرسي\n390001\tأهم تعريفات جيولوجيا الفصل الثاني\t7\t2\t2\t5\tمراجعات الفاينل\n420001\tبنك الأسئلة محلول - جيولوجيا الفصل 2\t7\t2\t2\t1\tالكتاب المدرسي\n420002\tبنك الأسئلة محلول - كيمياء الصف 11 الفصل الثاني\t4\t2\t2\t1\tالكتاب المدرسي\n420003\tبنك الأسئلة محلول أحياء الصف 11 الفصل 2\t5\t2\t2\t1\tالكتاب المدرسي\n",
+  "stderr": "",
+  "execution_time_ms": 1500
+}

@@ -1,0 +1,120 @@
+{
+  "query": "SELECT n.id, n.title, n.subjectId, n.semesterId, n.gradeId, n.categoryId, c.name as categoryName, s.name as subjectName, g.name as gradeName\nFROM notebooks n \nJOIN content_categories c ON n.categoryId = c.id \nJOIN subjects s ON n.subjectId = s.id\nJOIN grades g ON n.gradeId = g.id\nWHERE n.isPublished = 1\nAND (n.fileUrl IS NOT NULL OR n.previewUrl IS NOT NULL)\nLIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT n.id, n.title, n.subjectId, n.semesterId, n.gradeId, n.categoryId, c.name as categoryName, s.name as subjectName, g.name as gradeName\nFROM notebooks n \nJOIN content_categories c ON n.categoryId = c.id \nJOIN subjects s ON n.subjectId = s.id\nJOIN grades g ON n.gradeId = g.id\nWHERE n.isPublished = 1\nAND (n.fileUrl IS NOT NULL OR n.previewUrl IS NOT NULL)\nLIMIT 10;",
+  "rows": [
+    {
+      "id": "690002",
+      "title": "مراجعة الوحده الأولى - كيمياء - عاشر الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "3",
+      "categoryName": "مراجعات قصير 1",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "690001",
+      "title": "مراجعة مملكة الحيوان - أحياء - عاشر - الفصل2",
+      "subjectId": "2",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "3",
+      "categoryName": "مراجعات قصير 1",
+      "subjectName": "الأحياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "660001",
+      "title": "نموذج اجابة اختبارات سابقة - أحياء - عاشر ف2",
+      "subjectId": "2",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "6",
+      "categoryName": "نماذج اختبارات سابقة محلولة",
+      "subjectName": "الأحياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "570001",
+      "title": "نماذج اختبارات قصير أول- كيمياء - الصف11 الفصل الثاني",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "3",
+      "categoryName": "مراجعات قصير 1",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450013",
+      "title": "نموذج اجابة الاختبارات السابقه - كيماء -الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "6",
+      "categoryName": "نماذج اختبارات سابقة محلولة",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450012",
+      "title": "مذكرة زبدة الزبده -كيمياء - الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "2",
+      "categoryName": "ملخصات الشرح",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450011",
+      "title": "مراجعة نهائية محلولة - الفاينل - كيمياء - الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450010",
+      "title": "مراجعة نهائية غير محلول- فاينل - كيمياء- الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "5",
+      "categoryName": "مراجعات الفاينل",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450008",
+      "title": "بنك الأسئلة محلول-كيمياء-  الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    },
+    {
+      "id": "450007",
+      "title": "كتاب الطالب- كيمياء - الصف العاشر- الفصل2",
+      "subjectId": "1",
+      "semesterId": "2",
+      "gradeId": "1",
+      "categoryId": "1",
+      "categoryName": "الكتاب المدرسي",
+      "subjectName": "الكيمياء",
+      "gradeName": "الصف العاشر"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tsubjectId\tsemesterId\tgradeId\tcategoryId\tcategoryName\tsubjectName\tgradeName\n690002\tمراجعة الوحده الأولى - كيمياء - عاشر الفصل2\t1\t2\t1\t3\tمراجعات قصير 1\tالكيمياء\tالصف العاشر\n690001\tمراجعة مملكة الحيوان - أحياء - عاشر - الفصل2\t2\t2\t1\t3\tمراجعات قصير 1\tالأحياء\tالصف العاشر\n660001\tنموذج اجابة اختبارات سابقة - أحياء - عاشر ف2\t2\t2\t1\t6\tنماذج اختبارات سابقة محلولة\tالأحياء\tالصف العاشر\n570001\tنماذج اختبارات قصير أول- كيمياء - الصف11 الفصل الثاني\t1\t2\t1\t3\tمراجعات قصير 1\tالكيمياء\tالصف العاشر\n450013\tنموذج اجابة الاختبارات السابقه - كيماء -الصف العاشر- الفصل2\t1\t2\t1\t6\tنماذج اختبارات سابقة محلولة\tالكيمياء\tالصف العاشر\n450012\tمذكرة زبدة الزبده -كيمياء - الصف العاشر- الفصل2\t1\t2\t1\t2\tملخصات الشرح\tالكيمياء\tالصف العاشر\n450011\tمراجعة نهائية محلولة - الفاينل - كيمياء - الصف العاشر- الفصل2\t1\t2\t1\t5\tمراجعات الفاينل\tالكيمياء\tالصف العاشر\n450010\tمراجعة نهائية غير محلول- فاينل - كيمياء- الصف العاشر- الفصل2\t1\t2\t1\t5\tمراجعات الفاينل\tالكيمياء\tالصف العاشر\n450008\tبنك الأسئلة محلول-كيمياء-  الصف العاشر- الفصل2\t1\t2\t1\t1\tالكتاب المدرسي\tالكيمياء\tالصف العاشر\n450007\tكتاب الطالب- كيمياء - الصف العاشر- الفصل2\t1\t2\t1\t1\tالكتاب المدرسي\tالكيمياء\tالصف العاشر\n",
+  "stderr": "",
+  "execution_time_ms": 1508
+}

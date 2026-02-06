@@ -1,0 +1,45 @@
+{
+  "query": "SELECT id, name, nameEn FROM content_categories;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user ocoPq9UKt9MVUJb.root --database cF5vY7QXosm6HAcTf29xyM --execute SELECT id, name, nameEn FROM content_categories;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "الكتاب المدرسي",
+      "nameEn": "Textbook"
+    },
+    {
+      "id": "2",
+      "name": "ملخصات الشرح",
+      "nameEn": "Study Summaries"
+    },
+    {
+      "id": "3",
+      "name": "مراجعات قصير 1",
+      "nameEn": "Quiz 1 Reviews"
+    },
+    {
+      "id": "4",
+      "name": "مراجعات قصير 2",
+      "nameEn": "Quiz 2 Reviews"
+    },
+    {
+      "id": "5",
+      "name": "مراجعات الفاينل",
+      "nameEn": "Final Exam Reviews"
+    },
+    {
+      "id": "6",
+      "name": "نماذج اختبارات سابقة محلولة",
+      "nameEn": "Solved Past Papers"
+    },
+    {
+      "id": "7",
+      "name": "نماذج اختبارات سابقة غير محلولة",
+      "nameEn": "Unsolved Past Papers"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tnameEn\n1\tالكتاب المدرسي\tTextbook\n2\tملخصات الشرح\tStudy Summaries\n3\tمراجعات قصير 1\tQuiz 1 Reviews\n4\tمراجعات قصير 2\tQuiz 2 Reviews\n5\tمراجعات الفاينل\tFinal Exam Reviews\n6\tنماذج اختبارات سابقة محلولة\tSolved Past Papers\n7\tنماذج اختبارات سابقة غير محلولة\tUnsolved Past Papers\n",
+  "stderr": "",
+  "execution_time_ms": 1548
+}
