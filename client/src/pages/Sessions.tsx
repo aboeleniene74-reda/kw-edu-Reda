@@ -2,13 +2,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
+import { updateSEO, pageSEO } from "@/lib/seo";
 import { Video, Calendar, Clock, Users, DollarSign, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { format } from "date-fns";
 import { ar } from "date-fns/locale";
+import { useEffect } from "react";
 
 export default function Sessions() {
   const { data: sessions, isLoading } = trpc.sessions.list.useQuery();
+
+  useEffect(() => {
+    updateSEO(pageSEO.sessions);
+  }, []);
 
   if (isLoading) {
     return (

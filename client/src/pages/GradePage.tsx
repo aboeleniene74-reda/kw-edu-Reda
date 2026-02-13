@@ -2,7 +2,9 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
+import { updateSEO, getGradeSEO } from "@/lib/seo";
 import { ArrowRight, Calendar, GraduationCap, LogIn, User } from "lucide-react";
+import { useEffect } from "react";
 import { Link, useParams } from "wouter";
 
 export default function GradePage() {
@@ -12,6 +14,12 @@ export default function GradePage() {
 
   const { data: grade } = trpc.grades.getById.useQuery({ id: gradeId });
   const { data: semesters } = trpc.semesters.list.useQuery();
+
+  useEffect(() => {
+    if (grade) {
+      updateSEO(getGradeSEO(grade.name));
+    }
+  }, [grade]);
 
   if (!grade) {
     return (

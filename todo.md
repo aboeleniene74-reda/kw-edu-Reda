@@ -1100,3 +1100,16 @@
 - [x] إصلاح عرض الموقع على الهواتف (responsive) خاصة اسم الموقع
 - [x] اقتصاص الصورة المرفقة بشكل دائري واستخدامها كشعار
 - [x] فحص وإصلاح عدادات الإحصائيات في لوحة الأدمن
+
+
+## طلب جديد: تحسين SEO والكلمات المفتاحية للكويت
+
+- [x] مراجعة meta tags في index.html
+- [x] تحسين الكلمات المفتاحية لعمليات البحث في الكويت
+- [x] تحسين Open Graph و Twitter Cards
+- [x] تحسين Schema.org structured data
+- [x] تحسين SEO في ملف seo.ts
+- [x] إضافة sitemap.xml و robots.txt محسّن
+- [x] تحسين SEO في جميع الصفحات الفرعية
+- [x] إضافة SEO ديناميكي لصفحات GradePage, SemesterPage, SubjectPage, CategoryContentPage, Sessions, FAQPage
+- [x] كتابة اختبارات vitest لـ SEO (22 اختبار - جميعها ناجحة)

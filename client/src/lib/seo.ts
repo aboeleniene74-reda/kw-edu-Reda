@@ -1,6 +1,6 @@
 /**
  * SEO Helper Functions
- * إدارة meta tags و SEO للصفحات
+ * إدارة meta tags و SEO للصفحات - محسّن لعمليات البحث في الكويت
  */
 
 interface SEOConfig {
@@ -12,9 +12,12 @@ interface SEOConfig {
   canonical?: string;
 }
 
+const SITE_NAME = "مذكرة و مدرس";
+const LOGO_URL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663268166641/OnCTfKKmyCezjhPb.png";
+
 export function updateSEO(config: SEOConfig) {
-  // Update title
-  document.title = `${config.title} | مذكرة و مدرس`;
+  // Update title - format: Page Title | Site Name
+  document.title = `${config.title} | ${SITE_NAME}`;
 
   // Update or create meta tags
   updateMetaTag("description", config.description);
@@ -24,18 +27,18 @@ export function updateSEO(config: SEOConfig) {
   }
 
   // Open Graph tags
-  updateMetaTag("og:title", config.title, "property");
+  updateMetaTag("og:title", `${config.title} | ${SITE_NAME}`, "property");
   updateMetaTag("og:description", config.description, "property");
   updateMetaTag("og:type", config.ogType || "website", "property");
-  
-  if (config.ogImage) {
-    updateMetaTag("og:image", config.ogImage, "property");
-  }
+  updateMetaTag("og:site_name", SITE_NAME, "property");
+  updateMetaTag("og:locale", "ar_KW", "property");
+  updateMetaTag("og:image", config.ogImage || LOGO_URL, "property");
+  updateMetaTag("og:image:alt", config.title, "property");
 
-  // Geographic targeting
+  // Geographic targeting for Kuwait
   updateMetaTag("geo.region", "KW");
   updateMetaTag("geo.placename", "الكويت");
-  updateMetaTag("geo.position", "29.3759;47.9774"); // Kuwait City coordinates
+  updateMetaTag("geo.position", "29.3759;47.9774");
   updateMetaTag("ICBM", "29.3759, 47.9774");
   
   // Language and region
@@ -44,12 +47,9 @@ export function updateSEO(config: SEOConfig) {
   
   // Twitter Card tags
   updateMetaTag("twitter:card", "summary_large_image");
-  updateMetaTag("twitter:title", config.title);
+  updateMetaTag("twitter:title", `${config.title} | ${SITE_NAME}`);
   updateMetaTag("twitter:description", config.description);
-  
-  if (config.ogImage) {
-    updateMetaTag("twitter:image", config.ogImage);
-  }
+  updateMetaTag("twitter:image", config.ogImage || LOGO_URL);
 
   // Canonical URL
   if (config.canonical) {
@@ -81,55 +81,192 @@ function updateLinkTag(rel: string, href: string) {
   element.href = href;
 }
 
+// ===== الكلمات المفتاحية الأساسية =====
+// مبنية على أنماط البحث الفعلية في الكويت
+
+const CORE_KEYWORDS = [
+  // كلمات عامة عالية البحث
+  "مذكرات ثانوي الكويت",
+  "ملخصات ثانوي الكويت",
+  "مراجعات ثانوي الكويت",
+  "نماذج اختبارات ثانوي الكويت",
+  "بنك أسئلة ثانوي الكويت",
+  "تحميل مذكرات الكويت",
+  "مذكرات مجانية الكويت",
+  
+  // حسب المادة
+  "مذكرة كيمياء الكويت",
+  "مذكرة أحياء الكويت",
+  "مذكرة فيزياء الكويت",
+  "مذكرة جيولوجيا الكويت",
+  "شرح كيمياء الكويت",
+  "شرح أحياء الكويت",
+  "شرح فيزياء الكويت",
+  "شرح جيولوجيا الكويت",
+  
+  // حسب الصف
+  "الصف العاشر الكويت",
+  "الصف الحادي عشر الكويت",
+  "الصف الثاني عشر الكويت",
+  
+  // حسب نوع المراجعة
+  "مراجعة فاينل الكويت",
+  "مراجعة قصير الكويت",
+  "مراجعة نهائية الكويت",
+  "امتحانات ثانوي الكويت",
+  
+  // العلامة التجارية
+  "فارس العلوم",
+  "مذكرة و مدرس",
+  "ملخص الزبدة جيولوجيا",
+  
+  // كلمات مؤسسية
+  "المنهج الكويتي",
+  "وزارة التربية الكويت",
+  "تعليم ثانوي الكويت",
+  "المرحلة الثانوية الكويت",
+];
+
 // Default SEO config for home page
 export const defaultSEO: SEOConfig = {
-  title: "الصفحة الرئيسية",
-  description: "أفضل منصة تعليمية في الكويت للمرحلة الثانوية - مذكرات ومراجعات علمية شاملة للكيمياء والأحياء والفيزياء والجيولوجيا - إشراف فارس العلوم 99457080",
-  keywords: [
-    "مذكرات ثانوي الكويت",
-    "مراجعات ثانوي علمي الكويت",
-    "ملخص الزبدة جيولوجيا الكويت",
-    "مذكرة جيولوجيا الكويت",
-    "ملخص كيمياء 11 الكويت",
-    "ملخص أحياء 11 الكويت",
-    "ملخص فيزياء الكويت",
-    "مذكرات علمية الكويت",
-    "صف 11 ثانوي الكويت",
-    "صف 10 ثانوي الكويت",
-    "صف 12 ثانوي الكويت",
-    "فارس العلوم الكويت",
-    "مراجعات نهائية الكويت",
-    "نماذج اختبارات الكويت",
-    "التعليم الثانوي الكويت",
-    "المناهج الكويتية",
-    "وزارة التربية الكويت"
-  ],
+  title: "مذكرات المرحلة الثانوية في الكويت - كيمياء أحياء فيزياء جيولوجيا",
+  description: "مذكرة و مدرس - أفضل مذكرات وملخصات المرحلة الثانوية في الكويت. مذكرات كيمياء، أحياء، فيزياء، جيولوجيا للصف العاشر والحادي عشر والثاني عشر. مراجعات شاملة، نماذج اختبارات سابقة، ملخصات الفاينل والقصير. إعداد فارس العلوم ☎ 99457080",
+  keywords: CORE_KEYWORDS,
   ogType: "website"
 };
 
 // SEO configs for different pages
 export const pageSEO = {
   about: {
-    title: "من نحن",
-    description: "مذكرة و مدرس - أفضل منصة تعليمية في الكويت للمرحلة الثانوية - مذكرات ومراجعات علمية شاملة بإشراف فارس العلوم - خدمة طلاب الكويت منذ سنوات",
-    keywords: ["من نحن", "فارس العلوم الكويت", "منصة تعليمية الكويت", "مذكرات ثانوي الكويت", "التعليم في الكويت"]
+    title: "من نحن - فارس العلوم",
+    description: "مذكرة و مدرس - منصة تعليمية متخصصة في مذكرات المرحلة الثانوية بالكويت. إعداد فارس العلوم - خبرة سنوات في تدريس الكيمياء والأحياء والفيزياء والجيولوجيا لطلاب الثانوية في الكويت",
+    keywords: [
+      "فارس العلوم الكويت",
+      "مدرس كيمياء الكويت",
+      "مدرس أحياء الكويت",
+      "مدرس فيزياء الكويت",
+      "مدرس جيولوجيا الكويت",
+      "معلم خصوصي الكويت",
+      "مذكرة و مدرس",
+      "منصة تعليمية الكويت",
+      "تعليم ثانوي الكويت",
+    ]
   },
   
   privacy: {
     title: "سياسة الخصوصية",
-    description: "سياسة الخصوصية وحماية البيانات في مذكرة و مدرس - نلتزم بحماية معلوماتك الشخصية",
-    keywords: ["سياسة الخصوصية", "حماية البيانات", "أمان المعلومات"]
+    description: "سياسة الخصوصية وحماية البيانات في مذكرة و مدرس - نلتزم بحماية معلوماتك الشخصية وفقاً لأعلى معايير الأمان",
+    keywords: ["سياسة الخصوصية", "حماية البيانات", "أمان المعلومات", "مذكرة و مدرس"]
   },
   
   terms: {
     title: "شروط الاستخدام",
-    description: "شروط وأحكام استخدام مذكرة و مدرس - اقرأ الشروط قبل استخدام المنصة",
-    keywords: ["شروط الاستخدام", "أحكام الاستخدام", "قواعد المنصة"]
+    description: "شروط وأحكام استخدام مذكرة و مدرس - اقرأ الشروط والأحكام قبل استخدام المنصة التعليمية",
+    keywords: ["شروط الاستخدام", "أحكام الاستخدام", "قواعد المنصة", "مذكرة و مدرس"]
   },
   
   sessions: {
-    title: "الحصص الدراسية أونلاين",
-    description: "احجز حصص دراسية مباشرة أونلاين في الكويت مع أفضل المعلمين - كيمياء، أحياء، فيزياء، جيولوجيا - للمرحلة الثانوية",
-    keywords: ["حصص أونلاين الكويت", "دروس خصوصية الكويت", "تعليم عن بعد الكويت", "حصص مباشرة الكويت", "معلم خصوصي الكويت"]
-  }
+    title: "حصص دراسية أونلاين في الكويت",
+    description: "احجز حصص دراسية مباشرة أونلاين في الكويت مع فارس العلوم - كيمياء، أحياء، فيزياء، جيولوجيا للمرحلة الثانوية. دروس خصوصية عن بعد بأسعار مناسبة",
+    keywords: [
+      "حصص أونلاين الكويت",
+      "دروس خصوصية الكويت",
+      "تعليم عن بعد الكويت",
+      "حصص مباشرة الكويت",
+      "معلم خصوصي الكويت",
+      "دروس كيمياء أونلاين الكويت",
+      "دروس أحياء أونلاين الكويت",
+      "دروس فيزياء أونلاين الكويت",
+      "حجز حصة خصوصية الكويت",
+      "مدرس أونلاين الكويت",
+    ]
+  },
+
+  faq: {
+    title: "الأسئلة الشائعة",
+    description: "الأسئلة الشائعة حول مذكرة و مدرس - كيفية تحميل المذكرات، حجز الحصص، والتواصل مع فارس العلوم في الكويت",
+    keywords: [
+      "أسئلة شائعة مذكرات الكويت",
+      "كيف أحمل مذكرات الكويت",
+      "مذكرة و مدرس",
+      "فارس العلوم",
+    ]
+  },
 };
+
+// Dynamic SEO for grade pages
+export function getGradeSEO(gradeName: string): SEOConfig {
+  return {
+    title: `مذكرات ${gradeName} في الكويت`,
+    description: `مذكرات وملخصات ومراجعات ${gradeName} الثانوي في الكويت - كيمياء، أحياء، فيزياء، جيولوجيا. مراجعات شاملة، نماذج اختبارات سابقة، ملخصات الفاينل والقصير. إعداد فارس العلوم`,
+    keywords: [
+      `مذكرات ${gradeName} الكويت`,
+      `ملخصات ${gradeName} الكويت`,
+      `مراجعات ${gradeName} الكويت`,
+      `اختبارات ${gradeName} الكويت`,
+      `نماذج ${gradeName} الكويت`,
+      `كيمياء ${gradeName} الكويت`,
+      `أحياء ${gradeName} الكويت`,
+      `فيزياء ${gradeName} الكويت`,
+      `جيولوجيا ${gradeName} الكويت`,
+      "مذكرات ثانوي الكويت",
+      "فارس العلوم",
+      "مذكرة و مدرس",
+    ]
+  };
+}
+
+// Dynamic SEO for subject pages
+export function getSubjectSEO(subjectName: string, gradeName: string, semesterName: string): SEOConfig {
+  return {
+    title: `مذكرات ${subjectName} - ${gradeName} - ${semesterName}`,
+    description: `مذكرات وملخصات ${subjectName} ${gradeName} ${semesterName} في الكويت - ملخصات شرح، مراجعات قصير وفاينل، نماذج اختبارات سابقة، الكتاب المدرسي. إعداد فارس العلوم`,
+    keywords: [
+      `مذكرة ${subjectName} ${gradeName} الكويت`,
+      `ملخص ${subjectName} ${gradeName} الكويت`,
+      `مراجعة ${subjectName} ${gradeName} الكويت`,
+      `شرح ${subjectName} ${gradeName} الكويت`,
+      `اختبارات ${subjectName} ${gradeName} الكويت`,
+      `${subjectName} ${semesterName} الكويت`,
+      `نماذج ${subjectName} الكويت`,
+      "مذكرات ثانوي الكويت",
+      "فارس العلوم",
+      "مذكرة و مدرس",
+    ]
+  };
+}
+
+// Dynamic SEO for category content pages
+export function getCategorySEO(categoryName: string, subjectName: string, gradeName: string): SEOConfig {
+  return {
+    title: `${categoryName} - ${subjectName} - ${gradeName}`,
+    description: `${categoryName} مادة ${subjectName} ${gradeName} في الكويت - تحميل ومعاينة مجاناً. مذكرات وملخصات شاملة للمنهج الكويتي. إعداد فارس العلوم`,
+    keywords: [
+      `${categoryName} ${subjectName} ${gradeName} الكويت`,
+      `تحميل ${categoryName} ${subjectName} الكويت`,
+      `${subjectName} ${gradeName} الكويت`,
+      `مذكرة ${subjectName} الكويت`,
+      "مذكرات ثانوي الكويت",
+      "تحميل مذكرات الكويت",
+      "فارس العلوم",
+      "مذكرة و مدرس",
+    ]
+  };
+}
+
+// Dynamic SEO for semester pages
+export function getSemesterSEO(gradeName: string, semesterName: string): SEOConfig {
+  return {
+    title: `مذكرات ${gradeName} - ${semesterName} في الكويت`,
+    description: `مذكرات وملخصات ${gradeName} ${semesterName} في الكويت - كيمياء، أحياء، فيزياء، جيولوجيا. مراجعات شاملة ونماذج اختبارات. إعداد فارس العلوم`,
+    keywords: [
+      `مذكرات ${gradeName} ${semesterName} الكويت`,
+      `ملخصات ${gradeName} ${semesterName} الكويت`,
+      `مراجعات ${gradeName} ${semesterName} الكويت`,
+      `${gradeName} ${semesterName} الكويت`,
+      "مذكرات ثانوي الكويت",
+      "فارس العلوم",
+      "مذكرة و مدرس",
+    ]
+  };
+}

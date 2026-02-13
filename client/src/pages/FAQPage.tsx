@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { updateSEO, pageSEO } from "@/lib/seo";
 import { ArrowRight, GraduationCap, HelpCircle } from "lucide-react";
+import { useEffect } from "react";
 import { Link } from "wouter";
 
 export default function FAQPage() {
+  useEffect(() => {
+    updateSEO(pageSEO.faq);
+  }, []);
   const faqs = [
     {
       question: "ما هي مذكرة و مدرس؟",

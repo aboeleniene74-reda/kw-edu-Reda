@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
+import { updateSEO, getCategorySEO } from "@/lib/seo";
 import { ArrowRight, GraduationCap, Star, Eye, Phone, MessageCircle, Download, TrendingUp, LogIn, User } from "lucide-react";
 import { Link, useParams } from "wouter";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function CategoryContentPage() {
   const { user, loading } = useAuth();
@@ -32,6 +33,12 @@ export default function CategoryContentPage() {
 
   const currentSemester = semester?.find(s => s.id === semesterId);
   const currentCategory = category?.find(c => c.id === categoryId);
+
+  useEffect(() => {
+    if (currentCategory && subject && grade) {
+      updateSEO(getCategorySEO(currentCategory.name, subject.name, grade.name));
+    }
+  }, [currentCategory, subject, grade]);
 
   // تحديد إذا كان القسم مجاني (الكتاب المدرسي أو بنك الأسئلة)
   const isFreeCategory = currentCategory?.nameEn === "Textbook" || 

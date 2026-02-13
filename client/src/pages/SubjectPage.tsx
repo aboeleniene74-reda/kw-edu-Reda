@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { trpc } from "@/lib/trpc";
+import { updateSEO, getSubjectSEO } from "@/lib/seo";
 import { ArrowRight, BookOpen, GraduationCap, LogIn, User, FileText } from "lucide-react";
+import { useEffect } from "react";
 import { Link, useParams } from "wouter";
 
 export default function SubjectPage() {
@@ -19,6 +21,12 @@ export default function SubjectPage() {
   const { data: categories } = trpc.contentCategories.list.useQuery();
 
   const currentSemester = semesters?.find(s => s.id === semesterId);
+
+  useEffect(() => {
+    if (subject && grade && currentSemester) {
+      updateSEO(getSubjectSEO(subject.name, grade.name, currentSemester.name));
+    }
+  }, [subject, grade, currentSemester]);
 
   if (!grade || !currentSemester || !subject) {
     return (
