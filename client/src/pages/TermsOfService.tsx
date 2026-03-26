@@ -122,7 +122,7 @@ export default function TermsOfService() {
             <ul className="list-disc list-inside space-y-2 text-muted-foreground mr-4">
               <li>جميع الأسعار معروضة بالدينار الكويتي (KWD)</li>
               <li>نحتفظ بالحق في تغيير الأسعار في أي وقت</li>
-              <li>الدفع يتم عبر التواصل المباشر مع فارس العلوم</li>
+              <li>الدفع يتم عبر التواصل المباشر مع مايسترو العلوم</li>
               <li>لا يمكن استرداد المبالغ بعد استلام المذكرات الكاملة</li>
               <li>يمكن إلغاء حجز الحصص قبل 24 ساعة من موعدها</li>
             </ul>
@@ -219,7 +219,7 @@ export default function TermsOfService() {
               إذا كان لديك أي أسئلة حول شروط الاستخدام، يرجى التواصل معنا:
             </p>
             <div className="space-y-2">
-              <p className="font-bold text-xl">فارس العلوم</p>
+              <p className="font-bold text-xl">مايسترو العلوم</p>
               <p className="text-purple-50">📞 99457080</p>
               <p className="text-purple-50">📧 متاح عبر واتساب</p>
             </div>

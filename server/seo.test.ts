@@ -51,7 +51,7 @@ describe("SEO Configuration", () => {
   });
 
   it("should have brand keywords", () => {
-    expect(seoContent).toContain("فارس العلوم");
+    expect(seoContent).toContain("مايسترو العلوم");
     expect(seoContent).toContain("مذكرة و مدرس");
   });
 

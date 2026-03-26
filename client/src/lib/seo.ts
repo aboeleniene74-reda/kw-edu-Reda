@@ -89,7 +89,7 @@ const CORE_KEYWORDS = [
   "مذكرة ومدرس",
   "مذكرة و مدرس",
   "مدرس كيمياء - أحياء - جيولوجيا",
-  "فارس العلوم",
+  "مايسترو العلوم",
   "سهم التفوق",
   "مذكرات المرشد",
   "الساحر",
@@ -144,7 +144,7 @@ const CORE_KEYWORDS = [
 // Default SEO config for home page
 export const defaultSEO: SEOConfig = {
   title: "مدرس كيمياء - أحياء - جيولوجيا | مذكرات ثانوي الكويت",
-  description: "مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا. مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة. مدرس خصوصي وحضوري بالكويت للصف العاشر والحادي عشر. إعداد فارس العلوم ☎ 99457080",
+  description: "مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا. مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة. مدرس خصوصي وحضوري بالكويت للصف العاشر والحادي عشر. إعداد مايسترو العلوم ☎ 99457080",
   keywords: CORE_KEYWORDS,
   ogType: "website"
 };
@@ -152,10 +152,10 @@ export const defaultSEO: SEOConfig = {
 // SEO configs for different pages
 export const pageSEO = {
   about: {
-    title: "من نحن - فارس العلوم",
-    description: "مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا. أفضل مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري بالكويت. مذكرة الزبدة، سهم التفوق، مذكرات المرشد. إعداد فارس العلوم",
+    title: "من نحن - مايسترو العلوم",
+    description: "مذكرة و مدرس - مدرس كيمياء - أحياء - جيولوجيا. أفضل مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري بالكويت. مذكرة الزبدة، سهم التفوق، مذكرات المرشد. إعداد مايسترو العلوم",
     keywords: [
-      "فارس العلوم",
+      "مايسترو العلوم",
       "مذكرة و مدرس",
       "أفضل مدرس كيمياء بالكويت",
       "أفضل مدرس أحياء بالكويت",
@@ -183,7 +183,7 @@ export const pageSEO = {
   
   sessions: {
     title: "حصص دراسية خصوصي وحضوري بالكويت",
-    description: "مدرس كيمياء خصوصي بالكويت، مدرس أحياء حضوري بالكويت، مدرس جيولوجيا خصوصي بالكويت. احجز حصتك مع فارس العلوم - أفضل مدرس كيمياء وأحياء وجيولوجيا بالكويت ☎ 99457080",
+    description: "مدرس كيمياء خصوصي بالكويت، مدرس أحياء حضوري بالكويت، مدرس جيولوجيا خصوصي بالكويت. احجز حصتك مع مايسترو العلوم - أفضل مدرس كيمياء وأحياء وجيولوجيا بالكويت ☎ 99457080",
     keywords: [
       "مدرس كيمياء خصوصي بالكويت",
       "مدرس كيمياء حضوري بالكويت",
@@ -194,17 +194,17 @@ export const pageSEO = {
       "أفضل مدرس كيمياء بالكويت",
       "أفضل مدرس أحياء بالكويت",
       "أفضل مدرس جيولوجيا بالكويت",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "مذكرة و مدرس",
     ]
   },
 
   faq: {
     title: "الأسئلة الشائعة",
-    description: "الأسئلة الشائعة حول مذكرة و مدرس - مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة، مدرس خصوصي وحضوري بالكويت. فارس العلوم ☎ 99457080",
+    description: "الأسئلة الشائعة حول مذكرة و مدرس - مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة، مدرس خصوصي وحضوري بالكويت. مايسترو العلوم ☎ 99457080",
     keywords: [
       "مذكرة و مدرس",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "مذكرة الزبدة",
       "نماذج اختبارات سابقة محلولة",
       "أفضل مذكرات ثانوي مذكره ومدرس",
@@ -216,14 +216,14 @@ export const pageSEO = {
 export function getGradeSEO(gradeName: string): SEOConfig {
   return {
     title: `مذكرات ${gradeName} في الكويت`,
-    description: `مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة - ${gradeName} في الكويت. مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري. إعداد فارس العلوم ☎ 99457080`,
+    description: `مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة - ${gradeName} في الكويت. مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري. إعداد مايسترو العلوم ☎ 99457080`,
     keywords: [
       `مذكرة الزبدة ${gradeName}`,
       `بنك أسئلة ${gradeName} الكويت`,
       `نماذج اختبارات ${gradeName} الكويت`,
       `مذكرات ${gradeName} الكويت`,
       "مذكرة و مدرس",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "أفضل مذكرات ثانوي مذكره ومدرس",
       "سهم التفوق",
       "مذكرات المرشد",
@@ -235,7 +235,7 @@ export function getGradeSEO(gradeName: string): SEOConfig {
 export function getSubjectSEO(subjectName: string, gradeName: string, semesterName: string): SEOConfig {
   return {
     title: `مذكرات ${subjectName} - ${gradeName} - ${semesterName}`,
-    description: `مذكرة الزبدة ${subjectName} ${gradeName} ${semesterName}، بنك أسئلة ${subjectName}، نماذج اختبارات سابقة محلولة. مدرس ${subjectName} خصوصي وحضوري بالكويت. إعداد فارس العلوم ☎ 99457080`,
+    description: `مذكرة الزبدة ${subjectName} ${gradeName} ${semesterName}، بنك أسئلة ${subjectName}، نماذج اختبارات سابقة محلولة. مدرس ${subjectName} خصوصي وحضوري بالكويت. إعداد مايسترو العلوم ☎ 99457080`,
     keywords: [
       `مذكرة الزبدة ${subjectName} ${gradeName}`,
       `بنك أسئلة ${subjectName} ${gradeName} الكويت`,
@@ -244,7 +244,7 @@ export function getSubjectSEO(subjectName: string, gradeName: string, semesterNa
       `مدرس ${subjectName} حضوري بالكويت`,
       `أفضل مدرس ${subjectName} بالكويت`,
       "مذكرة و مدرس",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "سهم التفوق",
     ]
   };
@@ -254,14 +254,14 @@ export function getSubjectSEO(subjectName: string, gradeName: string, semesterNa
 export function getCategorySEO(categoryName: string, subjectName: string, gradeName: string): SEOConfig {
   return {
     title: `${categoryName} - ${subjectName} - ${gradeName}`,
-    description: `${categoryName} مادة ${subjectName} ${gradeName} في الكويت - مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة. تحميل ومعاينة مجاناً. إعداد فارس العلوم ☎ 99457080`,
+    description: `${categoryName} مادة ${subjectName} ${gradeName} في الكويت - مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة. تحميل ومعاينة مجاناً. إعداد مايسترو العلوم ☎ 99457080`,
     keywords: [
       `${categoryName} ${subjectName} ${gradeName} الكويت`,
       `مذكرة الزبدة ${subjectName}`,
       `بنك أسئلة ${subjectName} الكويت`,
       `نماذج اختبارات ${subjectName}`,
       "مذكرة و مدرس",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "أفضل مذكرات ثانوي مذكره ومدرس",
     ]
   };
@@ -271,14 +271,14 @@ export function getCategorySEO(categoryName: string, subjectName: string, gradeN
 export function getSemesterSEO(gradeName: string, semesterName: string): SEOConfig {
   return {
     title: `مذكرات ${gradeName} - ${semesterName} في الكويت`,
-    description: `مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة - ${gradeName} ${semesterName} في الكويت. مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري. إعداد فارس العلوم ☎ 99457080`,
+    description: `مذكرة الزبدة، بنك أسئلة، نماذج اختبارات سابقة محلولة - ${gradeName} ${semesterName} في الكويت. مدرس كيمياء وأحياء وجيولوجيا خصوصي وحضوري. إعداد مايسترو العلوم ☎ 99457080`,
     keywords: [
       `مذكرات ${gradeName} ${semesterName} الكويت`,
       `مذكرة الزبدة ${gradeName} ${semesterName}`,
       `بنك أسئلة ${gradeName} ${semesterName}`,
       `نماذج اختبارات ${gradeName} ${semesterName}`,
       "مذكرة و مدرس",
-      "فارس العلوم",
+      "مايسترو العلوم",
       "سهم التفوق",
     ]
   };

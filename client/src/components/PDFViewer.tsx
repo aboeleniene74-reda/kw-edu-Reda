@@ -143,7 +143,7 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
         <div className="bg-yellow-500/20 border-y border-yellow-500/50 px-4 py-2" dir="rtl">
           <p className="text-center text-sm text-yellow-100">
             <Lock className="inline h-4 w-4 ml-1" />
-            هذه معاينة محدودة لأول صفحتين فقط. للحصول على المذكرة الكاملة، تواصل مع فارس العلوم
+            هذه معاينة محدودة لأول صفحتين فقط. للحصول على المذكرة الكاملة، تواصل مع مايسترو العلوم
           </p>
         </div>
 
@@ -215,7 +215,7 @@ export function PDFViewer({ fileUrl, title, onClose }: PDFViewerProps) {
           <div className="text-center">
             <p className="font-bold text-lg mb-1">للحصول على المذكرة الكاملة</p>
             <p className="text-sm flex items-center justify-center gap-2 flex-wrap">
-              <span>تواصل مع فارس العلوم:</span>
+              <span>تواصل مع مايسترو العلوم:</span>
               <a href="tel:99457080" className="font-bold hover:underline">
                 99457080
               </a>

@@ -146,7 +146,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">تواصل معنا</p>
-                    <p className="text-sm font-bold">فارس العلوم</p>
+                    <p className="text-sm font-bold">مايسترو العلوم</p>
                   </div>
                 </div>
                 <a href="tel:99457080" className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-3 py-1.5 rounded-lg transition-colors font-semibold text-sm">

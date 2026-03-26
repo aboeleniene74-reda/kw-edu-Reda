@@ -168,7 +168,7 @@ export default function PrivacyPolicy() {
             </p>
             <div className="flex items-center gap-2 mt-2">
               <Phone className="h-5 w-5 text-blue-600" />
-              <span className="font-bold">فارس العلوم: 99457080</span>
+              <span className="font-bold">مايسترو العلوم: 99457080</span>
             </div>
           </CardContent>
         </Card>
@@ -195,7 +195,7 @@ export default function PrivacyPolicy() {
               إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى التواصل معنا:
             </p>
             <div className="space-y-2">
-              <p className="font-bold text-xl">فارس العلوم</p>
+              <p className="font-bold text-xl">مايسترو العلوم</p>
               <p className="text-blue-50">📞 99457080</p>
               <p className="text-blue-50">📧 متاح عبر واتساب</p>
             </div>

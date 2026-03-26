@@ -101,7 +101,7 @@ export function TextbookPDFViewer({ fileUrl, title, onClose }: TextbookPDFViewer
           <div className="text-center">
             <p className="font-bold text-lg mb-1">للحصول على المذكرات والمراجعات</p>
             <p className="text-sm flex items-center justify-center gap-2 flex-wrap">
-              <span>تواصل مع فارس العلوم:</span>
+              <span>تواصل مع مايسترو العلوم:</span>
               <a href="tel:99457080" className="font-bold hover:underline">99457080</a>
               <Badge variant="secondary" className="bg-green-500 text-white">
                 التوصيل المجاني

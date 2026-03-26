@@ -1030,7 +1030,7 @@ export async function initializeDefaultSettings() {
     // Contact Settings
     {
       key: "contact_name",
-      value: "فارس العلوم",
+      value: "مايسترو العلوم",
       type: "text",
       label: "اسم المعلم",
       category: "contact",
